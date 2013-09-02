@@ -4,12 +4,11 @@ import Network.Server;
 
 
 public class launcher {
-	
 	public static void main(String[] args) {
 		
-		System.out.println("starting Graphics");
 		GraphicSync gs = new GraphicSync();
 		
+		/*		
 		System.out.println("starting Network");
 		Server server= new Server();
 		Thread serverThread = new Thread(server);
@@ -18,5 +17,6 @@ public class launcher {
 		Client client = new Client();
 		Thread clientThread = new Thread(client);
 		clientThread.start();
+		*/
 	}
 }

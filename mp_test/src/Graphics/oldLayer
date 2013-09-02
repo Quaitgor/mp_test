@@ -1,0 +1,245 @@
+package graphics;
+
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import entities.Entity;
+
+
+/**
+ * LayerData (V2) is the Main Texture Handler of this Game.
+ * LayerData saves and controls the data for the animation, texture, size and
+ * color for a single layer of Graphic on an object.
+ * Together with other LayerData an Object can be build with multiple layers of textures, 
+ * each individual in size color and position and its own sets of animation.
+ */
+
+public class LayerData2 {
+	public Entity owner;
+	public double[] pos = new double[]{0,0};
+	public double rotation = 0;
+	public int layer = 40;
+	public Texture tex;
+	public float[] color =  new float[]{0.75f,0.75f,0.75f,1.0f};
+	public float [] texCords;
+	public boolean enableDepth = false;
+	protected double anitimer = 0;
+	public String texturepath = "";
+    public double spritesV = 1;
+    public double spritesH = 1;
+    public double spriteWidth;
+    public double spriteHeight;
+    public double spriteDisplayX;
+    public double spriteDisplayY;
+    public int spriteV = 0;
+    public int spriteH = 0;
+    protected int anispeed = 100;
+    protected int imageWidth = 128;
+    protected int imageHeight = 128;
+    public float texX = 0.0f;
+    public float texY = 0.0f;
+    public float texXp = 1.0f;
+    public float texYp = 1.0f;
+	public ArrayList<double[][]> animationList;
+	public int currentAnimation = 0;
+    public boolean disableDepth = false;
+    public boolean disableAnimation = false;
+    public boolean deactivateAfter = false;
+    public String collisionTexPath = "";
+    
+	public LayerData2(Entity moveable, String texturepath, int h, int v) {
+		this.owner = moveable;
+    	this.spritesV = h;
+    	this.spritesH = v;
+    	this.texturepath = texturepath;
+    	// if this texture is a texture with multiple sprites the layerData
+    	// gets a different pixelcheck file (collision) in the hitbox folder
+    	if(h > 1 || v > 1){
+    		collisionTexPath = "hitbox/"+texturepath;
+    	}else{
+    		collisionTexPath = texturepath;
+    	}
+    	this.texturepath = texturepath;
+    	setupTexture();
+    	calculateSprite();
+    	animationList = new ArrayList<double[][]>();
+	}
+	
+	/**
+	 * This method calulates important variables and saves them, normaly executed only once
+	 * */
+	private void setupTexture() {
+		BufferedImage bimg = null;
+		try {
+			tex = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/sprites/"+texturepath+".png")), GL_NEAREST);
+			bimg = ImageIO.read(new File("res/sprites/"+texturepath+".png"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	   	imageWidth = bimg.getWidth();
+    	imageHeight = bimg.getHeight();
+    	bimg.flush();    	
+       	spriteWidth = imageWidth/spritesH;
+    	spriteHeight = imageHeight/spritesV;
+    	spriteDisplayX = spriteWidth;
+    	spriteDisplayY = spriteHeight;
+	}
+	
+	/**
+	 * This method allows changing the Texture.
+	 * */
+	public void changeTexture(String texturepath){
+		if(this.texturepath != texturepath){
+	    	this.texturepath = texturepath;
+	    	setupTexture();
+	    	calculateSprite();
+		}
+	}
+
+	/**
+	 * Readjusts the texture on the sprite thats been selected with spriteH & spriteV.
+	 * This method is called when the sprite has changed (ex. Animation).
+	 * */
+	protected void calculateSprite(){
+		texX =  (float)((double)(spriteV* imageWidth/spritesH) /  imageWidth);
+		texY =  (float)((double)(spriteH* imageHeight/spritesV) /  imageHeight);
+		texXp = (float)((double)(spriteV* imageWidth/spritesH+spriteWidth) /  imageWidth);
+		texYp = (float)((double)(spriteH* imageHeight/spritesV+spriteHeight) /  imageHeight);
+	}
+	
+	/**
+	 * Checks the animation(if any) and the drawThisLayer().
+	 * */
+	public void drawLayer(){
+		if(!disableAnimation){
+			if (animationList.size() > 0){
+				checkAnimation();
+			}			
+		}
+		if(insideScreen())drawThisLayer();
+		
+	}
+	
+	/**
+	 * Checks if the owner of this LayerData is still visibile (used to stop calulating
+	 * the render process if not visible)
+	 * */
+	protected boolean insideScreen(){
+		if(owner.posX-this.spriteDisplayX/2 > 1280 || owner.posX+this.spriteDisplayX/2 < 0|| owner.posY-this.spriteDisplayY/2 > 768 || owner.posY+this.spriteDisplayY/2 < 0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	/**
+	 * Checks if another Sprite needs to be set for the next draw using the animationList
+	 * */
+	protected void checkAnimation(){
+		int tempSpriteX = spriteH;
+		int tempSpriteY = spriteV;
+		this.anitimer += owner.delta;
+		double[][] list = animationList.get(currentAnimation);
+    	for(int i=0;i<list[0].length;i++){
+
+    		if (anitimer > list[0][i] && anitimer <= list[0][i+1]){
+    			tempSpriteX = (int) list[1][i+1];
+    			tempSpriteY = (int) list[2][i+1];
+    		}
+			if(anitimer >= list[0][list[0].length-1]) {
+				anitimer = 0;
+    			tempSpriteX = (int)list[1][0];
+    			tempSpriteY = (int)list[2][0];
+    			if(deactivateAfter){
+    				disableAnimation = true;
+    				color[3] = 0.0f;
+    			}
+			}
+    	}
+    	if(spriteH != tempSpriteX || spriteV != tempSpriteY){
+    		changeSprite(tempSpriteX, tempSpriteY);
+    	}
+	}
+	
+	/**
+	 * The draw command to GL to draw a textured quad with the
+	 * texture provided (and with the correct selected sprite).
+	 * */
+	protected void drawThisLayer(){
+		// Draw the layer final step
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glPushMatrix();
+        if (!disableDepth) GL11.glEnable(GL11.GL_DEPTH_TEST);
+        glTranslatef((int)getPosX(), (int)getPosY(), -layer);
+        GL11.glRotated(rotation, 0.0, 0.0, 1.0);
+        int temp = (int)spriteDisplayX;
+        int temp2 = (int)spriteDisplayY;
+        glTranslatef(-temp/2, -temp2/2, -layer);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex.getTextureID());
+        GL11.glColor4f(color[0], color[1], color[2], color[3]);
+        glBegin(GL_QUADS);
+        {
+        	glTexCoord2f(texX, texY);
+        	glVertex2f(0, 0);
+        	glTexCoord2f(texX, texYp);
+        	glVertex2f(0, (int)spriteDisplayY);
+        	glTexCoord2f(texXp, texYp);
+        	glVertex2f( (int)spriteDisplayX, (int)spriteDisplayY);
+        	glTexCoord2f(texXp, texY);
+        	glVertex2f( (int)spriteDisplayX, 0);
+        }
+        glEnd();
+        if (!disableDepth) GL11.glDisable(GL11.GL_DEPTH_TEST);
+        glPopMatrix();
+	}
+	
+	/**
+	 * changeSprite is a shorthand method to change spriteH and spriteV
+	 * and execute calculateSprite in one command.
+	 * (Ex. in a 2x2 Texture => changeSprite(2,2) will select lower right sprite.
+	 * */
+	public void changeSprite(int h, int v){
+		this.spriteH = h;
+		this.spriteV = v;
+		calculateSprite();
+	}
+	/**
+	 * setSpriteDisplaySize changes the displayed size of the object,
+	 * shorthand method to change both in one command
+	 * */
+	public void setSpriteDisplaySize(double x, double y){
+		spriteDisplayX = x;
+		spriteDisplayY = y;
+	}
+	/**
+	 * getPosX calulates its position relative to the position of its owner
+	 * (without this, the texturelayer will not move together with its owner and will be seperate)
+	 * */
+	public double getPosX(){
+		return owner.posX + pos[0];
+	}
+	/**
+	 * getPosY calulates its position relative to the position of its owner
+	 * (without this, the texturelayer will not move together with its owner and will be seperate)
+	 * */
+	public double getPosY(){
+		return owner.posY + pos[1];
+	}
+}
