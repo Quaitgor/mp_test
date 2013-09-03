@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="lib/jar/jinput.jar"/>
 	<classpathentry kind="lib" path="lib/jar/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="lib/jar/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="lib/jar/lwjgl.jar">
+	<classpathentry kind="lib" path="lib/jar/lwjgl.jar" sourcepath="C:/Users/cn/.m2/repository/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="mp_test/lib/native"/>
 		</attributes>
