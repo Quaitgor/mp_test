@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit>
+    <name>default</name>
+    <mind>none</mind>
+    <hp>1</hp>
+    <damage>10</damage>
+    <Weapon>none</Weapon>
+    <x>122</x>
+    <y>222</y>
+    <speed>10</speed>
+    <graphics>xml/blueprints/graphics/player.xml</graphics>
+    <size>1</size>
+</unit>

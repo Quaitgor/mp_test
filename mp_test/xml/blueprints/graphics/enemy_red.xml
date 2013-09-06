@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+    <name>testtexture 222</name>
+    <hitbox>none</hitbox>
+    <hp>1</hp>
+    <damage>10</damage>
+    <Weapon>none</Weapon>
+    <x>10</x>
+    <y>10</y>
+    <speed>10</speed>
+    <graphics>res/sprites/enemys/enemy_red.png</graphics>
+    <size>1</size>
+</textureData>

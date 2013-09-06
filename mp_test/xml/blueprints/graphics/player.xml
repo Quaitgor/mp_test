@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+    <hitbox>0</hitbox>
+    <width>256</width>
+    <height>614</height>
+    <graphics>res/sprites/player/player.png</graphics>
+</textureData>
