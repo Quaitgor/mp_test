@@ -6,6 +6,6 @@
     <damage>10</damage>
     <Weapon>none</Weapon>
     <speed>10</speed>
-    <graphics>player</graphics>
+    <graphics>enemy_red</graphics>
     <size>1</size>
 </unit>

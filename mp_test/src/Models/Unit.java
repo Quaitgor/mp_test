@@ -1,18 +1,22 @@
 package Models;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import Graphics.UnitTexture;
+import Conroller.Controller;
+import Graphics.DrawingTexture;
+import Graphics.TextureData;
 import Observer.DeltaUpdater;
 import Observer.Observer;
+import Reader.JavaAndXML;
 import Reader.XMLimport;
 
 
 @XmlRootElement
 public class Unit extends XMLimport implements Observer {
 
-	private UnitTexture ut = null;
-	
 	@XmlElement
 	private String name = "default";
 	@XmlElement
@@ -24,33 +28,54 @@ public class Unit extends XMLimport implements Observer {
 	@XmlElement
 	private String Weapon = "none";
 	@XmlElement
-	private double x = 10;
-	@XmlElement
-	private double y = 10;
-	@XmlElement
 	private int speed = 10;
 	@XmlElement
 	private String graphics = "none";
 	@XmlElement
-	private int size = 1;
+	public double size = 1;
 	
-	public void chat(){
-		System.out.println(name);
-	}
+	public int rotation = 0;
+	private double x = -100;
+	private double y = -100;
+	private HashMap<Integer, DrawingTexture> layers;
+	private JavaAndXML jxml = JavaAndXML.getInstance();
+	
 	
 	public void init(){
-		ut = new UnitTexture(this, graphics);
+		layers = new HashMap<Integer, DrawingTexture>();
+		// build loop to grab and create all textures in this string
+		addTexture(0,graphics);
+		//
 		DeltaUpdater.register(this);
 	}
 
-	@Override
+	private void addTexture(int i, String graphics){
+		
+		TextureData tex = (TextureData) jxml.XMLtoJava(Controller.graphics.get(graphics), TextureData.class);
+		tex.registerOwner(this);
+		DrawingTexture dTex = new DrawingTexture(tex, this);
+		layers.put(i, dTex);
+	}
+	
 	public void update(double delta) {
-		if(ut!=null){
-			ut.draw();
+		drawTextures();
+	}
+	
+	private void drawTextures(){
+		Iterator<Integer> keySetIterator = layers.keySet().iterator();
+		while(keySetIterator.hasNext()){
+			Integer key = keySetIterator.next();
+			DrawingTexture texture = layers.get(key);
+			texture.draw();
 		}
 	}
 	
 	public double[] getPosition(){
 		return new double[] {x,y};
+	}
+
+	public void setPosition(int nx, int ny){
+		this.x = nx;
+		this.y = ny;
 	}
 }

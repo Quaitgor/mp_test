@@ -10,44 +10,47 @@ import Reader.JavaAndXML;
 @SuppressWarnings("unchecked")
 public class Controller{
 	public boolean isServer = false;
-	private JavaAndXML jxml = JavaAndXML.getInstance();
-	//private Vector<StringWriter> basicUnitsBP;
-
-	private HashMap<String, StringWriter> basicUnitsBP;
+	private static JavaAndXML jxml = JavaAndXML.getInstance();
+	public static boolean showHitbox = false;
+	public static HashMap<String, StringWriter> basicUnitsBP;
+	public static HashMap<String, StringWriter> graphics;
 	
 	public Controller(){
-		System.out.println("Init Controller");
-		basicUnitsBP = new HashMap();
+		basicUnitsBP = new HashMap<String, StringWriter>();
+		graphics = new HashMap<String, StringWriter>();
 		initBlueprints();
-		System.out.println("Controller Done");
 	}
-	
-	private void initBlueprints(){
-		File folder = new File("xml/blueprints/basic");
+
+	private void addBlueprints(String path, HashMap<String, StringWriter> map){
+		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
 		for (File file : listOfFiles) {
 			StringWriter stringWriter = jxml.readXML(file.getAbsolutePath());
-			System.out.println(file.getName());
 			String mapKey = file.getName();
 			int pos = mapKey.lastIndexOf(".");
 			if (pos > 0) {
 				mapKey = mapKey.substring(0, pos);
 			}
-			basicUnitsBP.put(mapKey, stringWriter);
+			map.put(mapKey, stringWriter);
 		}
+	}
+	
+	private void initBlueprints(){
+		addBlueprints("xml/blueprints/basic", basicUnitsBP);
+		addBlueprints("xml/blueprints/graphics", graphics);
+		
 		//Tests
-		/*
-		Iterator<String> keySetIterator = basicUnitsBP.keySet().iterator();
-		while(keySetIterator.hasNext()){
-			String key = keySetIterator.next();
-			StringWriter xml = basicUnitsBP.get(key);
-			Unit u = jxml.XMLtoJava(xml);
-			u.chat();
-		}
-		*/
-		Unit u = (Unit) jxml.XMLtoJava(basicUnitsBP.get("player"), Unit.class);
+		spawn(basicUnitsBP, "enemy_red", 150, 150);
+		spawn(basicUnitsBP, "player", 240, 240);
+		showHitbox = true;
 		//Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
 		//u.chat();
+	}
+	
+	public static Unit spawn(HashMap<String, StringWriter> collection, String name, int x, int y){
+		Unit newUnit = (Unit) jxml.XMLtoJava( (StringWriter)collection.get(name), Unit.class);
+		newUnit.setPosition(x,y);
+		return newUnit;
 	}
 
 }
