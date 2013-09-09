@@ -44,14 +44,6 @@ public class Controller{
 		spawn(basicUnitsBP, "player", 240, 240);
 		//showHitbox = true;
 		
-		
-		try {
-			jxml.JavatoXML(Unit.class);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		//Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
 		//u.chat();
 	}
