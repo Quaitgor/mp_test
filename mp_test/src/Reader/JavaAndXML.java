@@ -33,8 +33,8 @@ public class JavaAndXML {
     	JAXBContext context = JAXBContext.newInstance(contextClass);
     	Marshaller m = context.createMarshaller();
     	m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    	Object object = contextClass;
         StringWriter stringWriter = new StringWriter();
+    	Unit object = new Unit();
     	m.marshal(object, stringWriter);
     	m.marshal(object, new File("xml/blueprints/basic/1.xml"));
     	return stringWriter;

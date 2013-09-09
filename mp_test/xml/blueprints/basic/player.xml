@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <unit>
-    <name>default</name>
+	<!--Default Mind-->
     <mind>none</mind>
+	<!--Default Health-->
     <hp>1</hp>
+	<!--Default Damage-->
     <damage>10</damage>
+	<!--Default Weapons-->
     <Weapon>none</Weapon>
+	<!--Default Speed-->
     <speed>10</speed>
+	<!--Graphics-->
     <graphics>player</graphics>
+    <graphics>player2</graphics>
+	<!--Scale Size-->
     <size>1</size>
 </unit>

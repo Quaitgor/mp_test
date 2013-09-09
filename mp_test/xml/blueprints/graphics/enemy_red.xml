@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <textureData>
-	<hitbox>66,42,-2,0</hitbox>
+	<!--Imagepath-->
+    <graphics>res/sprites/enemys/enemy_red.png</graphics>
+	<!--Imagelayer-->
+	<layer>-73</layer>
+	<!--ImageSize-->
     <width>128</width>
     <height>64</height>
-    <graphics>res/sprites/enemys/enemy_red.png</graphics>
+	<!--Hitbox-->
+	<hitboxSize>66</hitboxSize>
+	<hitboxSize>42</hitboxSize>
+	<hitboxOffset>-2</hitboxOffset>
+	<hitboxOffset>0</hitboxOffset>
 </textureData>

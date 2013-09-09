@@ -23,14 +23,14 @@ public class DrawingTexture {
 	private int sizeX;
 	private int sizeY;
 	private int[] hitbox = null;
+	private int[] hitboxSize = {0,0};
+	private int[] hitboxOffset = {0,0};
 	
 	public DrawingTexture(TextureData texD, Unit owner){
 		this.owner = owner;
 		getTexD(texD);
-		//BufferedImage bimg = null;
 		try {
 			tex = TextureLoader.getTexture("PNG", new FileInputStream(new File(texturepath)), GL11.GL_NEAREST);
-			//bimg = ImageIO.read(new File(texturepath));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
@@ -43,13 +43,9 @@ public class DrawingTexture {
 		this.width = texD.width;
 		this.layer = texD.layer;
 		this.texturepath = texD.graphics;
-		String string = texD.hitbox;
-		if(string != null){
-			String[] p = string.split(",");
-			if (p.length == 4){
-				hitbox = new int[]{Integer.parseInt(p[0]),Integer.parseInt(p[1]),Integer.parseInt(p[2]),Integer.parseInt(p[3])};
-			}
-		}
+		this.hitboxSize = texD.hitboxSize;
+		this.hitboxOffset= texD.hitboxOffset;
+		
 		sizeX = (int) (this.width*owner.size);
 		sizeY = (int) (this.height*owner.size);
 	}
@@ -83,11 +79,11 @@ public class DrawingTexture {
 		drawBegin(texCoord, vertex);
 		GL11.glPopMatrix();
 		//draw smaller Hitbox
-		if(hitbox != null){
-			float[] vertex2 = {-hitbox[0]/2,-hitbox[1]/2,hitbox[0]/2, hitbox[1]/2};
+		if(hitboxSize != null){
+			float[] vertex2 = {-hitboxSize[0]/2,-hitboxSize[1]/2,hitboxSize[0]/2, hitboxSize[1]/2};
 			GL11.glColor4f(0.5f, 0.5f, 0.5f, 1f);
 			GL11.glPushMatrix();
-			GL11.glTranslatef((int)position[0]+hitbox[2], (int)position[1]+hitbox[3], -126);
+			GL11.glTranslatef((int)position[0]+hitboxOffset[0], (int)position[1]+hitboxOffset[1], -126);
 			GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
 			drawBegin(texCoord, vertex2);
 			GL11.glPopMatrix();
@@ -95,8 +91,11 @@ public class DrawingTexture {
 	}
 	
 	public void draw(){
+		//sprites support?
 		float[] texCoord = {0,0,1,1};
+		//size
 		float[] vertex = {0,0,sizeX,sizeY};
+		
 		if (Controller.showHitbox) drawHitbox(texCoord,vertex);
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		double[] position = owner.getPosition();
@@ -109,6 +108,5 @@ public class DrawingTexture {
 		GL11.glTranslatef(-sizeX/2, -sizeY/2, 0);
 		drawBegin(texCoord, vertex);
 		GL11.glPopMatrix();
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
 	}
 }

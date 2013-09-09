@@ -40,9 +40,18 @@ public class Controller{
 		addBlueprints("xml/blueprints/graphics", graphics);
 		
 		//Tests
-		spawn(basicUnitsBP, "enemy_red", 150, 150);
+		Unit X = spawn(basicUnitsBP, "enemy_red", 150, 150);
 		spawn(basicUnitsBP, "player", 240, 240);
-		showHitbox = true;
+		//showHitbox = true;
+		
+		
+		try {
+			jxml.JavatoXML(Unit.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
 		//u.chat();
 	}

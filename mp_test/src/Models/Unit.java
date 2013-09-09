@@ -1,4 +1,5 @@
 package Models;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -30,9 +31,11 @@ public class Unit extends XMLimport implements Observer {
 	@XmlElement
 	private int speed = 10;
 	@XmlElement
-	private String graphics = "none";
+	private String[] graphics = {"none"};
 	@XmlElement
 	public double size = 1;
+	@XmlElement
+	public int[] sizes = {1,1,1,1,1,2};
 	
 	public int rotation = 0;
 	private double x = -100;
@@ -44,7 +47,9 @@ public class Unit extends XMLimport implements Observer {
 	public void init(){
 		layers = new HashMap<Integer, DrawingTexture>();
 		// build loop to grab and create all textures in this string
-		addTexture(0,graphics);
+		for(int i=0;i<graphics.length;i++){
+			addTexture(i,graphics[i]);
+		}
 		//
 		DeltaUpdater.register(this);
 	}

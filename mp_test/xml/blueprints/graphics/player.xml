@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <textureData>
-	<hitbox>137,42,0,-2</hitbox>
+	<!--Imagepath-->
+	<graphics>res/sprites/player/player.png</graphics>
+	<!--Imagelayer-->
+	<layer>-75</layer>
+	<!--ImageSize-->
 	<width>256</width>
 	<height>64</height>
-	<graphics>res/sprites/player/player.png</graphics>
+	<!--Hitbox-->
+	<hitboxSize>137</hitboxSize>
+	<hitboxSize>42</hitboxSize>
+	<hitboxOffset>0</hitboxOffset>
+	<hitboxOffset>-2</hitboxOffset>
 </textureData>
