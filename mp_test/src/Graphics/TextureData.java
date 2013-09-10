@@ -6,11 +6,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import Models.GrahpicElement;
 import Models.Unit;
-import Reader.XMLimport;
 
 @XmlRootElement
-public class TextureData extends XMLimport {
+public class TextureData extends GrahpicElement {
 
 	@XmlElement
 	protected String graphics = "default";

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import Graphics.TextWriter;
 import Models.Unit;
 import Reader.JavaAndXML;
 
@@ -42,9 +44,13 @@ public class Controller{
 		//Tests
 		Unit X = spawn(basicUnitsBP, "enemy_red", 150, 150);
 		spawn(basicUnitsBP, "player", 240, 240);
+		TextWriter x = new TextWriter();
+		x.setPosition(400, 400);
+		x.writeText("ABC");
+		
 		//showHitbox = true;
 		
-		Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
+		//Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
 		//u.chat();
 	}
 	

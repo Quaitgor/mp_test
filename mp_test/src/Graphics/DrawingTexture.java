@@ -10,6 +10,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import Conroller.Controller;
+import Models.GrahpicElement;
 import Models.Unit;
 
 public class DrawingTexture {
@@ -19,7 +20,7 @@ public class DrawingTexture {
 	private int imageWidth;
 	private int layer;
 	private String texturepath;
-	private Unit owner;
+	private GrahpicElement owner;
 	private int nrOfSpritesX = 1;
 	private int nrOfSpritesY = 1;
 	private int[] hitboxSize = {0,0};
@@ -35,9 +36,11 @@ public class DrawingTexture {
 	private int selectedSpriteX = 0;
 	private int selectedSpriteY= 0;
 	private double lastDelta = 0;
+	private int spriteDisplayX = 0;
+	private int spriteDisplayY = 0;
     
 	
-	public DrawingTexture(TextureData texD, Unit owner){
+	public DrawingTexture(TextureData texD, GrahpicElement owner){
 		this.owner = owner;
 		getTexD(texD);
 		try {
@@ -50,6 +53,7 @@ public class DrawingTexture {
 		calculateSprite();
 	}
 	
+
 	private void getTexD(TextureData texD){
 		this.imageWidth = texD.width;
 		this.imageHeight = texD.height;
@@ -59,16 +63,19 @@ public class DrawingTexture {
 		this.hitboxOffset= texD.hitboxOffset;
 		this.nrOfSpritesX = texD.nrOfSpritesX;
 		this.nrOfSpritesY = texD.nrOfSpritesY;
+		this.spriteDisplayX = imageWidth/nrOfSpritesX;
+		this.spriteDisplayY = imageHeight/nrOfSpritesY;
+		
 		this.anims = texD.anim;
 		if(anims.length > 1){
 			hasAnimation = true;
-			this.lastDelta = owner.animationTiming;
+			this.lastDelta = ((Unit)owner).animationTiming;
 		}
 	}
 	
 	public void resetLastDelta(){
 		this.lastDelta = 0;
-		this.lastDelta = owner.animationTiming;
+		this.lastDelta = ((Unit)owner).animationTiming;
 		animationStep = 0;
 		
 	}
@@ -96,10 +103,14 @@ public class DrawingTexture {
 			}else{
 				animationStep++;
 			}
-			selectedSpriteX = anims[animationStep][0];
-			selectedSpriteY = anims[animationStep][1];
-			calculateSprite();
+			changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
 		}
+	}
+	
+	public void changeSprite(int[] spriteCords){
+		selectedSpriteX = spriteCords[0];
+		selectedSpriteY = spriteCords[1];
+		calculateSprite();
 	}
 	
 	private void calculateSprite(){
@@ -137,10 +148,14 @@ public class DrawingTexture {
 		}
 	}
 
-	
+	public void draw(){
+		draw(0);
+	}
 	public void draw(double animationTiming){
+		//ToDo fix sprited image position
 		if(hasAnimation) checkSprite(animationTiming);
-		float[] vertex = {0,0,imageWidth,imageHeight};
+		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
+		System.out.println(texturepath+": "+spriteDisplayX + " / " +spriteDisplayY);
 		
 		if (Controller.showHitbox) drawHitbox();
 		GL11.glColor4f(1f, 1f, 1f, 1f);

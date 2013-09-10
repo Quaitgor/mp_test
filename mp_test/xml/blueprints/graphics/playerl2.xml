@@ -5,8 +5,8 @@
 	<!--Imagelayer-->
 	<layer>-74</layer>
 	<!--ImageSize-->
-	<width>256</width>
-	<height>64</height>
+	<width>512</width>
+	<height>128</height>
 	<!--Hitbox-->
 	<hitboxSize>137</hitboxSize>
 	<hitboxSize>42</hitboxSize>

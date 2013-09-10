@@ -12,11 +12,10 @@ import Graphics.TextureData;
 import Observer.DeltaUpdater;
 import Observer.Observer;
 import Reader.JavaAndXML;
-import Reader.XMLimport;
 
 
 @XmlRootElement
-public class Unit extends XMLimport implements Observer {
+public class Unit extends GrahpicElement implements Observer {
 
 	@XmlElement
 	private String name = "default";
@@ -33,10 +32,8 @@ public class Unit extends XMLimport implements Observer {
 	@XmlElement
 	private String[] graphics = {"none"};
 	
-	public int rotation = 0;
-	private double x = -100;
-	private double y = -100;
-	private double delta = 0;
+	protected double x = -100;
+	protected double y = -100;
 	private HashMap<Integer, DrawingTexture> layers;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
 	public double animationTiming = 0;
@@ -57,7 +54,6 @@ public class Unit extends XMLimport implements Observer {
 	}
 	
 	public void update(double delta) {
-		this.delta = delta;
 		animationTiming += delta;
 		drawTextures();
 		if(animationTiming >= 60000){
@@ -80,12 +76,5 @@ public class Unit extends XMLimport implements Observer {
 		}
 	}
 	
-	public double[] getPosition(){
-		return new double[] {x,y};
-	}
 
-	public void setPosition(int nx, int ny){
-		this.x = nx;
-		this.y = ny;
-	}
 }

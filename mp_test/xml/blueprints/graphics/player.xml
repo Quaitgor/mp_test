@@ -12,8 +12,4 @@
 	<hitboxSize>42</hitboxSize>
 	<hitboxOffset>0</hitboxOffset>
 	<hitboxOffset>-2</hitboxOffset>
-	<!--Sprites-->
-	<nrOfSpritesX>1</nrOfSpritesX>
-	<nrOfSpritesY>1</nrOfSpritesY>
-	<!--Animations-->
 </textureData>
