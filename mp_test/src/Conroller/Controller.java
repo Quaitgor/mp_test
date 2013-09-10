@@ -42,9 +42,15 @@ public class Controller{
 		//Tests
 		Unit X = spawn(basicUnitsBP, "enemy_red", 150, 150);
 		spawn(basicUnitsBP, "player", 240, 240);
-		//showHitbox = true;
+		showHitbox = true;
 		
-		//Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
+		Unit u2 = (Unit) jxml.XMLtoJava(basicUnitsBP.get("enemy_red"), Unit.class);
+		try {
+			jxml.JavatoXML(Unit.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//u.chat();
 	}
 	

@@ -12,4 +12,26 @@
 	<hitboxSize>42</hitboxSize>
 	<hitboxOffset>0</hitboxOffset>
 	<hitboxOffset>-2</hitboxOffset>
+	<!--Sprites-->
+	<nrOfSpritesX>2</nrOfSpritesX>
+	<nrOfSpritesY>2</nrOfSpritesY>
+	<!--Animations-->
+	<!--step1-->
+    <anim>
+        <item>0</item>
+        <item>0</item>
+        <item>500</item>
+    </anim>
+	<!--step2-->
+    <anim>
+        <item>0</item>
+        <item>1</item>
+        <item>1200</item>
+    </anim>
+	<!--step3-->
+    <anim>
+        <item>1</item>
+        <item>0</item>
+        <item>500</item>
+    </anim>
 </textureData>

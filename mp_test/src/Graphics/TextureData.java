@@ -26,11 +26,10 @@ public class TextureData extends XMLimport {
 	protected int[] hitboxSize = {0,0};
 	@XmlElement
 	protected int[] hitboxOffset = {0,0};
-
-	
-	
-	
-	public void registerOwner(Unit unit) {
-		this.owner = unit;
-	}
+	@XmlElement
+	protected int nrOfSpritesX = 1;
+	@XmlElement
+	protected int nrOfSpritesY = 1;
+	@XmlElement
+	protected int anim[][]={{0,0,0}};
 }

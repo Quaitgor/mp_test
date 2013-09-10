@@ -32,37 +32,31 @@ public class Unit extends XMLimport implements Observer {
 	private int speed = 10;
 	@XmlElement
 	private String[] graphics = {"none"};
-	@XmlElement
-	public double size = 1;
-	@XmlElement
-	public int[] sizes = {1,1,1,1,1,2};
 	
 	public int rotation = 0;
 	private double x = -100;
 	private double y = -100;
+	private double delta = 0;
 	private HashMap<Integer, DrawingTexture> layers;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
 	
 	
 	public void init(){
 		layers = new HashMap<Integer, DrawingTexture>();
-		// build loop to grab and create all textures in this string
 		for(int i=0;i<graphics.length;i++){
 			addTexture(i,graphics[i]);
 		}
-		//
 		DeltaUpdater.register(this);
 	}
 
 	private void addTexture(int i, String graphics){
-		
 		TextureData tex = (TextureData) jxml.XMLtoJava(Controller.graphics.get(graphics), TextureData.class);
-		tex.registerOwner(this);
 		DrawingTexture dTex = new DrawingTexture(tex, this);
 		layers.put(i, dTex);
 	}
 	
 	public void update(double delta) {
+		this.delta = delta;
 		drawTextures();
 	}
 	
@@ -73,6 +67,10 @@ public class Unit extends XMLimport implements Observer {
 			DrawingTexture texture = layers.get(key);
 			texture.draw();
 		}
+	}
+	
+	public double getDelta(){
+		return delta;
 	}
 	
 	public double[] getPosition(){
