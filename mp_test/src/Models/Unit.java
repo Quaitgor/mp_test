@@ -39,6 +39,7 @@ public class Unit extends XMLimport implements Observer {
 	private double delta = 0;
 	private HashMap<Integer, DrawingTexture> layers;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
+	public double animationTiming = 0;
 	
 	
 	public void init(){
@@ -57,7 +58,17 @@ public class Unit extends XMLimport implements Observer {
 	
 	public void update(double delta) {
 		this.delta = delta;
+		animationTiming += delta;
 		drawTextures();
+		if(animationTiming >= 60000){
+			animationTiming = 0;
+			Iterator<Integer> keySetIterator = layers.keySet().iterator();
+			while(keySetIterator.hasNext()){
+				Integer key = keySetIterator.next();
+				DrawingTexture texture = layers.get(key);
+				texture.resetLastDelta();
+			}
+		}
 	}
 	
 	private void drawTextures(){
@@ -65,12 +76,8 @@ public class Unit extends XMLimport implements Observer {
 		while(keySetIterator.hasNext()){
 			Integer key = keySetIterator.next();
 			DrawingTexture texture = layers.get(key);
-			texture.draw();
+			texture.draw(animationTiming);
 		}
-	}
-	
-	public double getDelta(){
-		return delta;
 	}
 	
 	public double[] getPosition(){

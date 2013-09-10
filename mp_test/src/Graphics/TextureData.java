@@ -32,4 +32,7 @@ public class TextureData extends XMLimport {
 	protected int nrOfSpritesY = 1;
 	@XmlElement
 	protected int anim[][]={{0,0,0}};
+	@XmlElement
+	protected boolean animDepend = false;
+	
 }

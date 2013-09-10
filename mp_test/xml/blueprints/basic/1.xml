@@ -8,4 +8,5 @@
     <speed>10</speed>
     <graphics>none</graphics>
     <rotation>0</rotation>
+    <animationTiming>0.0</animationTiming>
 </unit>

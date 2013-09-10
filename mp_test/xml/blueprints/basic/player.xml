@@ -12,7 +12,7 @@
     <speed>10</speed>
 	<!--Graphics-->
     <graphics>player</graphics>
-    <graphics>player2</graphics>
+    <graphics>playerl2</graphics>
 	<!--Scale Size-->
     <size>1</size>
 </unit>

@@ -31,10 +31,10 @@ public class DrawingTexture {
     public float texXp = 1.0f;
     public float texYp = 1.0f;
 	private boolean hasAnimation = false;
-	private double animationTiming = 0;
 	private int animationStep = 0;
 	private int selectedSpriteX = 0;
 	private int selectedSpriteY= 0;
+	private double lastDelta = 0;
     
 	
 	public DrawingTexture(TextureData texD, Unit owner){
@@ -62,9 +62,16 @@ public class DrawingTexture {
 		this.anims = texD.anim;
 		if(anims.length > 1){
 			hasAnimation = true;
+			this.lastDelta = owner.animationTiming;
 		}
 	}
 	
+	public void resetLastDelta(){
+		this.lastDelta = 0;
+		this.lastDelta = owner.animationTiming;
+		animationStep = 0;
+		
+	}
 	
 	private void drawBegin(float[] texCords, float[] vertex){
 		GL11.glBegin(GL11.GL_QUADS);
@@ -81,12 +88,11 @@ public class DrawingTexture {
 		GL11.glEnd();
 	}
 
-	private void checkSprite(){
-		this.animationTiming += owner.getDelta();
-		if(anims[animationStep][2] <= animationTiming){
+	private void checkSprite(double animationTiming){
+		if(anims[animationStep][2] <= animationTiming - lastDelta){
+			lastDelta = animationTiming;
 			if(animationStep+1 == anims.length){
 				animationStep = 0;
-				animationTiming = 0;
 			}else{
 				animationStep++;
 			}
@@ -107,7 +113,6 @@ public class DrawingTexture {
 	}
 	
 	private void drawHitbox(){
-		if(hasAnimation) checkSprite();
 		double[] position = owner.getPosition();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -133,8 +138,8 @@ public class DrawingTexture {
 	}
 
 	
-	public void draw(){
-		//size
+	public void draw(double animationTiming){
+		if(hasAnimation) checkSprite(animationTiming);
 		float[] vertex = {0,0,imageWidth,imageHeight};
 		
 		if (Controller.showHitbox) drawHitbox();
