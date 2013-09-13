@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+	<!--Imagepath-->
+	<graphics>res/sprites/system/alpha.png</graphics>
+	<!--Imagelayer-->
+	<layer>-75</layer>
+	<!--ImageSize-->
+	<width>512</width>
+	<height>64</height>
+	<!--Sprites-->
+	<nrOfSpritesX>32</nrOfSpritesX>
+	<nrOfSpritesY>4</nrOfSpritesY>
+	<!--Animations-->
+</textureData>
