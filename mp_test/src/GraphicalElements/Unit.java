@@ -1,4 +1,4 @@
-package Models;
+package GraphicalElements;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,7 +15,7 @@ import Reader.JavaAndXML;
 
 
 @XmlRootElement
-public class Unit extends GrahpicElement implements Observer {
+public class Unit extends GraphicElement implements Observer {
 
 	@XmlElement
 	private String name = "default";

@@ -5,8 +5,8 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import GraphicalElements.Unit;
 import Graphics.TextWriter;
-import Models.Unit;
 import Reader.JavaAndXML;
 
 @SuppressWarnings("unchecked")
@@ -42,11 +42,13 @@ public class Controller{
 		addBlueprints("xml/blueprints/graphics", graphics);
 		
 		//Tests
-		Unit X = spawn(basicUnitsBP, "enemy_red", 150, 150);
-		spawn(basicUnitsBP, "player", 240, 240);
-		TextWriter x = new TextWriter();
-		x.setPosition(400, 400);
-		x.writeText("ABC");
+		Unit x = spawn(basicUnitsBP, "enemy_red", 150, 150);
+		Unit y = spawn(basicUnitsBP, "player", 240, 240);
+		TextWriter t = new TextWriter();
+		x.setPosition(400, 100);
+		t.setPosition(400, 200);
+		y.setPosition(400, 300);
+		t.writeText("ONLY CAPITAL LETTERS FOR NOW|LETS ROCK");
 		
 		//showHitbox = true;
 		

@@ -6,11 +6,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import Models.GrahpicElement;
-import Models.Unit;
+import GraphicalElements.GraphicElement;
+import GraphicalElements.Unit;
 
 @XmlRootElement
-public class TextureData extends GrahpicElement {
+public class TextureData extends GraphicElement {
 
 	@XmlElement
 	protected String graphics = "default";
@@ -32,7 +32,5 @@ public class TextureData extends GrahpicElement {
 	protected int nrOfSpritesY = 1;
 	@XmlElement
 	protected int anim[][]={{0,0,0}};
-	@XmlElement
-	protected boolean animDepend = false;
 	
 }

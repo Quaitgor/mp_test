@@ -3,12 +3,11 @@
 	<!--Imagepath-->
 	<graphics>res/sprites/system/alpha.png</graphics>
 	<!--Imagelayer-->
-	<layer>-75</layer>
+	<layer>-71</layer>
 	<!--ImageSize-->
 	<width>512</width>
 	<height>64</height>
 	<!--Sprites-->
 	<nrOfSpritesX>32</nrOfSpritesX>
 	<nrOfSpritesY>4</nrOfSpritesY>
-	<!--Animations-->
 </textureData>

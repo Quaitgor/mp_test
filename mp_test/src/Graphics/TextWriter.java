@@ -1,19 +1,19 @@
 package Graphics;
 
 import Conroller.Controller;
-import Models.GrahpicElement;
-import Models.Unit;
+import GraphicalElements.GraphicElement;
+import GraphicalElements.Unit;
 import Observer.DeltaUpdater;
 import Observer.Observer;
 import Reader.JavaAndXML;
 
 
-public class TextWriter extends GrahpicElement implements Observer{
+public class TextWriter extends GraphicElement implements Observer{
 	DrawingTexture letters;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
-	private double x;
-	private double y;
 	private String text;
+	private int startX = 0;
+	private int startY = 0;
 	
 	public TextWriter(){
 		TextureData tex = (TextureData) jxml.XMLtoJava(Controller.graphics.get("alphabet"), TextureData.class);
@@ -23,39 +23,32 @@ public class TextWriter extends GrahpicElement implements Observer{
 	
 	public void writeText(String text){
 		this.text = text;
+		startX = x;
+		startY = y;
 	}
 	
+	
+	
+	//todo:
+	// system /lb, /w8 etc for commands in text
+	// text animated write
+	
 	public void writeText(){
-
-		char a = text.charAt(0);
-		int[] texCords = getLetterCords(a);
-		letters.changeSprite(texCords);
-		letters.draw();
-		//for(int i = 0; i < text.length(); i ++){
-		/*
-			x += 20;
-			if(texCords[0] >= 0 && texCords[1] >= 0){
-			}
-			nextchar = 'a';
-			//lastchar = 'a';
+		x = startX;
+		y = startY;
+		for(int i = 0; i < text.length(); i ++){
+			char a = text.charAt(i);
+			int[] texCords = getLetterCords(a);
+			letters.changeSprite(texCords);
 			
-			//if(i-1 > 0 ) lastchar = text.charAt(i-1);
-			if(i+1 < text.length()) nextchar = text.charAt(i+1);
-			
-			if(a == '\n')
-			{
-				carriage++;
-				glMatrixMode(GL_PROJECTION);
-				glLoadIdentity();
-				glOrtho(0, orthowidth, orthoheight, 0, 1, -1);
-				glTranslated(0,(iCharHeight+1) *carriage,0);//TODO no idea why this works
-				continue;
+			if(text.charAt(i) == '|'){
+				y += 20;
+				x = startX;
+			}else{
+				letters.draw();
+				x += 16;
 			}
-			yoffset=getyspacing(a);
-			xoffset=getxspacing(a);
-			if(xoffset <= 0) xoffset=getxspacing(nextchar);
-			*/
-		//}		
+		}		
 	}
 
 
@@ -67,31 +60,31 @@ public class TextWriter extends GrahpicElement implements Observer{
 	public int[] getLetterCords(char a){
 		switch(a){
 		case 'A': return new int[]{0,0};
-		case 'B': return new int[]{0,1};
-		case 'C': return new int[]{0,2};
-		case 'D': return new int[]{0,3};
-		case 'E': return new int[]{0,4};
-		case 'F': return new int[]{0,5};
-		case 'G': return new int[]{0,6};
-		case 'H': return new int[]{0,7};
-		case 'I': return new int[]{0,8};
-		case 'J': return new int[]{0,9};
-		case 'K': return new int[]{0,10};
-		case 'L': return new int[]{0,11};
-		case 'M': return new int[]{0,12};
-		case 'N': return new int[]{0,13};
-		case 'O': return new int[]{0,14};
-		case 'P': return new int[]{0,15};
-		case 'Q': return new int[]{1,0};
-		case 'R': return new int[]{1,1};
-		case 'S': return new int[]{1,2};
-		case 'T': return new int[]{1,3};
-		case 'U': return new int[]{1,4};
-		case 'V': return new int[]{1,5};
-		case 'W': return new int[]{1,6};
-		case 'X': return new int[]{1,7};
-		case 'Y': return new int[]{1,8};
-		case 'Z': return new int[]{1,9};
+		case 'B': return new int[]{1,0};
+		case 'C': return new int[]{2,0};
+		case 'D': return new int[]{3,0};
+		case 'E': return new int[]{4,0};
+		case 'F': return new int[]{5,0};
+		case 'G': return new int[]{6,0};
+		case 'H': return new int[]{7,0};
+		case 'I': return new int[]{8,0};
+		case 'J': return new int[]{9,0};
+		case 'K': return new int[]{10,0};
+		case 'L': return new int[]{11,0};
+		case 'M': return new int[]{12,0};
+		case 'N': return new int[]{13,0};
+		case 'O': return new int[]{14,0};
+		case 'P': return new int[]{15,0};
+		case 'Q': return new int[]{16,0};
+		case 'R': return new int[]{17,0};
+		case 'S': return new int[]{18,0};
+		case 'T': return new int[]{19,0};
+		case 'U': return new int[]{20,0};
+		case 'V': return new int[]{21,0};
+		case 'W': return new int[]{22,0};
+		case 'X': return new int[]{23,0};
+		case 'Y': return new int[]{24,0};
+		case 'Z': return new int[]{25,0};
 		
 		case 'a': return new int[]{2,0};
 		case 'b': return new int[]{2,1};

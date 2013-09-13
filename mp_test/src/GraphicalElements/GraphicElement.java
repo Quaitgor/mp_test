@@ -1,6 +1,6 @@
-package Models;
+package GraphicalElements;
 
-public class GrahpicElement {
+public class GraphicElement {
 
 	public int x = 0;
 	public int y = 0;

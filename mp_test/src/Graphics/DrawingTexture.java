@@ -10,8 +10,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import Conroller.Controller;
-import Models.GrahpicElement;
-import Models.Unit;
+import GraphicalElements.GraphicElement;
+import GraphicalElements.Unit;
 
 public class DrawingTexture {
 
@@ -20,7 +20,7 @@ public class DrawingTexture {
 	private int imageWidth;
 	private int layer;
 	private String texturepath;
-	private GrahpicElement owner;
+	private GraphicElement owner;
 	private int nrOfSpritesX = 1;
 	private int nrOfSpritesY = 1;
 	private int[] hitboxSize = {0,0};
@@ -40,7 +40,7 @@ public class DrawingTexture {
 	private int spriteDisplayY = 0;
     
 	
-	public DrawingTexture(TextureData texD, GrahpicElement owner){
+	public DrawingTexture(TextureData texD, GraphicElement owner){
 		this.owner = owner;
 		getTexD(texD);
 		try {
@@ -127,19 +127,19 @@ public class DrawingTexture {
 		double[] position = owner.getPosition();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glColor4f(1f, 0.5f, 0.5f, 1f);
+		GL11.glColor4f(1f, 0.5f, 0.5f, 0.7f);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], -127);
 		GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
-		GL11.glTranslatef(-imageWidth/2, -imageHeight/2, -0);
+		GL11.glTranslatef(-spriteDisplayX/2, -spriteDisplayY/2, -0);
 		float[] texc = new float[]{0,0,1,1};
-		float[] vertex = {0,0,imageWidth,imageHeight};
+		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
 		drawBegin(texc, vertex);
 		GL11.glPopMatrix();
 		//draw smaller Hitbox
 		if(hitboxSize != null){
 			float[] vertex2 = {-hitboxSize[0]/2,-hitboxSize[1]/2,hitboxSize[0]/2, hitboxSize[1]/2};
-			GL11.glColor4f(0.5f, 0.5f, 0.5f, 1f);
+			GL11.glColor4f(0.5f, 0.5f, 0.5f, 0.7f);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((int)position[0]+hitboxOffset[0], (int)position[1]+hitboxOffset[1], -126);
 			GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
@@ -155,7 +155,6 @@ public class DrawingTexture {
 		//ToDo fix sprited image position
 		if(hasAnimation) checkSprite(animationTiming);
 		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
-		System.out.println(texturepath+": "+spriteDisplayX + " / " +spriteDisplayY);
 		
 		if (Controller.showHitbox) drawHitbox();
 		GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -166,7 +165,7 @@ public class DrawingTexture {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], layer);
 		GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
-		GL11.glTranslatef(-imageWidth/2, -imageHeight/2, 0);
+		GL11.glTranslatef(-spriteDisplayX/2, -spriteDisplayY/2, 0);
 		drawBegin(texCords, vertex);
 		GL11.glPopMatrix();
 	}

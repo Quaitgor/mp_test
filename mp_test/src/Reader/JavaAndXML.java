@@ -17,8 +17,8 @@ import javax.xml.bind.Unmarshaller;
 
 import org.lwjgl.Sys;
 
-import Models.GrahpicElement;
-import Models.Unit;
+import GraphicalElements.GraphicElement;
+import GraphicalElements.Unit;
  
 public class JavaAndXML {
 	
@@ -51,7 +51,7 @@ public class JavaAndXML {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		((GrahpicElement)obj).init();
+		((GraphicElement)obj).init();
 		return obj;
     }
 
