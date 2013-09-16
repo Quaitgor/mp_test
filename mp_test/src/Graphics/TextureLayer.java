@@ -10,17 +10,18 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import Conroller.Controller;
-import GraphicalElements.GraphicElement;
-import GraphicalElements.Unit;
+import Production.Basic;
+import Production.Unit;
+import Reader.JavaAndXML;
 
-public class DrawingTexture {
+public class TextureLayer {
 
 	private Texture tex;
 	private int imageHeight;
 	private int imageWidth;
 	private int layer;
 	private String texturepath;
-	private GraphicElement owner;
+	private Basic owner;
 	private int nrOfSpritesX = 1;
 	private int nrOfSpritesY = 1;
 	private int[] hitboxSize = {0,0};
@@ -38,9 +39,10 @@ public class DrawingTexture {
 	private double lastDelta = 0;
 	private int spriteDisplayX = 0;
 	private int spriteDisplayY = 0;
+	private JavaAndXML jxml = JavaAndXML.getInstance();
     
 	
-	public DrawingTexture(TextureData texD, GraphicElement owner){
+	public TextureLayer(String texD, Basic owner){
 		this.owner = owner;
 		getTexD(texD);
 		try {
@@ -54,7 +56,8 @@ public class DrawingTexture {
 	}
 	
 
-	private void getTexD(TextureData texD){
+	private void getTexD(String graphic){
+		TextureData texD = (TextureData) jxml.XMLtoJava(Controller.graphics.get(graphic), TextureData.class);
 		this.imageWidth = texD.width;
 		this.imageHeight = texD.height;
 		this.layer = texD.layer;

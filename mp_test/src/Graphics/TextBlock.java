@@ -1,4 +1,4 @@
-package GraphicalElements;
+package Graphics;
 
 import java.util.HashMap;
 

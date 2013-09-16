@@ -1,24 +1,25 @@
 package Graphics;
 
 import Conroller.Controller;
-import GraphicalElements.GraphicElement;
-import GraphicalElements.Unit;
 import Observer.DeltaUpdater;
 import Observer.Observer;
+import Production.Basic;
+import Production.Unit;
 import Reader.JavaAndXML;
 
 
-public class TextWriter extends GraphicElement implements Observer{
-	DrawingTexture letters;
+public class TextWriter extends Basic implements Observer{
+	TextureLayer letters;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
 	private String text;
 	private int startX = 0;
 	private int startY = 0;
 	
 	public TextWriter(){
-		TextureData tex = (TextureData) jxml.XMLtoJava(Controller.graphics.get("alphabet"), TextureData.class);
-		letters = new DrawingTexture(tex, this);
+		letters = new TextureLayer("alphabet", this);
 		DeltaUpdater.register(this);
+		
+		
 	}
 	
 	public void writeText(String text){

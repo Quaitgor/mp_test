@@ -1,16 +1,11 @@
 package Graphics;
 
-import java.util.ArrayList;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import GraphicalElements.GraphicElement;
-import GraphicalElements.Unit;
+import Production.*;
 
 @XmlRootElement
-public class TextureData extends GraphicElement {
+public class TextureData extends DataCollector {
 
 	@XmlElement
 	protected String graphics = "default";

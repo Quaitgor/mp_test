@@ -3,23 +3,22 @@ package Conroller;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
-import java.util.Iterator;
-
-import GraphicalElements.Unit;
 import Graphics.TextWriter;
+import Production.Unit;
 import Reader.JavaAndXML;
 
-@SuppressWarnings("unchecked")
 public class Controller{
 	public boolean isServer = false;
 	private static JavaAndXML jxml = JavaAndXML.getInstance();
 	public static boolean showHitbox = false;
 	public static HashMap<String, StringWriter> basicUnitsBP;
 	public static HashMap<String, StringWriter> graphics;
+	public static HashMap<String, StringWriter> weapons;
 	
 	public Controller(){
 		basicUnitsBP = new HashMap<String, StringWriter>();
 		graphics = new HashMap<String, StringWriter>();
+		weapons = new HashMap<String, StringWriter>();
 		initBlueprints();
 	}
 
@@ -40,6 +39,7 @@ public class Controller{
 	private void initBlueprints(){
 		addBlueprints("xml/blueprints/basic", basicUnitsBP);
 		addBlueprints("xml/blueprints/graphics", graphics);
+		addBlueprints("xml/blueprints/weapons", weapons);
 		
 		//Tests
 		Unit x = spawn(basicUnitsBP, "enemy_red", 150, 150);

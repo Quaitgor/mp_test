@@ -15,10 +15,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.lwjgl.Sys;
-
-import GraphicalElements.GraphicElement;
-import GraphicalElements.Unit;
+import Production.DataCollector;
+import Production.Unit;
  
 public class JavaAndXML {
 	
@@ -30,7 +28,7 @@ public class JavaAndXML {
 		return jxml;
 	}
 	
-    public StringWriter JavatoXML(Class contextClass) throws Exception {
+    public StringWriter JavatoXML(Class<?> contextClass) throws Exception {
     	JAXBContext context = JAXBContext.newInstance(contextClass);
     	Marshaller m = context.createMarshaller();
     	m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -41,7 +39,7 @@ public class JavaAndXML {
     	return stringWriter;
     }
     
-    public Object XMLtoJava(StringWriter sw, Class objClass){
+    public Object XMLtoJava(StringWriter sw, Class<?> objClass){
         JAXBContext jc;
         Object obj = null;
 		try {
@@ -51,7 +49,7 @@ public class JavaAndXML {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		((GraphicElement)obj).init();
+		((DataCollector)obj).init();
 		return obj;
     }
 

@@ -15,4 +15,6 @@
     <graphics>playerl2</graphics>
 	<!--Scale Size-->
     <size>1</size>
+	
+	<weaponlist>test</weaponlist>
 </unit>
