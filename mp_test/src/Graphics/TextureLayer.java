@@ -11,7 +11,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import Conroller.Controller;
 import Production.Basic;
-import Production.Unit;
+import Production.GraphicalElement;
 import Reader.JavaAndXML;
 
 public class TextureLayer {
@@ -39,6 +39,7 @@ public class TextureLayer {
 	private double lastDelta = 0;
 	private int spriteDisplayX = 0;
 	private int spriteDisplayY = 0;
+	private boolean playOnce = false;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
     
 	
@@ -68,18 +69,16 @@ public class TextureLayer {
 		this.nrOfSpritesY = texD.nrOfSpritesY;
 		this.spriteDisplayX = imageWidth/nrOfSpritesX;
 		this.spriteDisplayY = imageHeight/nrOfSpritesY;
-		
+		this.playOnce = texD.fireOnce;
 		this.anims = texD.anim;
 		if(anims.length > 1){
 			hasAnimation = true;
-			this.lastDelta = ((Unit)owner).animationTiming;
+			this.lastDelta = ((GraphicalElement)owner).animationTiming;
 		}
 	}
 	
-	public void resetLastDelta(){
-		this.lastDelta = 0;
-		this.lastDelta = ((Unit)owner).animationTiming;
-		animationStep = 0;
+	public void resetLastDelta(double remove){
+		this.lastDelta -= remove;
 		
 	}
 	
@@ -102,6 +101,9 @@ public class TextureLayer {
 		if(anims[animationStep][2] <= animationTiming - lastDelta){
 			lastDelta = animationTiming;
 			if(animationStep+1 == anims.length){
+				if(playOnce){
+					hasAnimation = false;
+				}
 				animationStep = 0;
 			}else{
 				animationStep++;
@@ -115,15 +117,26 @@ public class TextureLayer {
 		selectedSpriteY = spriteCords[1];
 		calculateSprite();
 	}
+
+	/*
+	public void resetAnim(){
+		animationStep = 0;
+		hasAnimation = true;
+	}
+	*/
+	
 	
 	private void calculateSprite(){
-		int spriteWidth = imageHeight/nrOfSpritesX;
-		int spriteHeight = imageWidth/nrOfSpritesY;
-		texX =  (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX) /  imageHeight);
-		texY =  (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY) /  imageWidth);
-		texXp = (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX+spriteWidth) /  imageHeight);
-		texYp = (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY+spriteHeight) /  imageWidth);
-		texCords = new float[] {texX,texY,texXp,texYp};
+		texCords = new float[]{0,0,0,0};
+		if(selectedSpriteX != -1){
+			int spriteWidth = imageHeight/nrOfSpritesX;
+			int spriteHeight = imageWidth/nrOfSpritesY;
+			texX =  (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX) /  imageHeight);
+			texY =  (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY) /  imageWidth);
+			texXp = (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX+spriteWidth) /  imageHeight);
+			texYp = (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY+spriteHeight) /  imageWidth);
+			texCords = new float[] {texX,texY,texXp,texYp};
+		}
 	}
 	
 	private void drawHitbox(){
@@ -133,7 +146,7 @@ public class TextureLayer {
 		GL11.glColor4f(1f, 0.5f, 0.5f, 0.7f);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], -127);
-		GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
+		GL11.glRotated(owner.getRotation(), 0.0, 0.0, 1.0);
 		GL11.glTranslatef(-spriteDisplayX/2, -spriteDisplayY/2, -0);
 		float[] texc = new float[]{0,0,1,1};
 		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
@@ -145,7 +158,7 @@ public class TextureLayer {
 			GL11.glColor4f(0.5f, 0.5f, 0.5f, 0.7f);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((int)position[0]+hitboxOffset[0], (int)position[1]+hitboxOffset[1], -126);
-			GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
+			GL11.glRotated(owner.getRotation(), 0.0, 0.0, 1.0);
 			drawBegin(texc, vertex2);
 			GL11.glPopMatrix();
 		}
@@ -167,7 +180,7 @@ public class TextureLayer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex.getTextureID());
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], layer);
-		GL11.glRotated(owner.rotation, 0.0, 0.0, 1.0);
+		GL11.glRotated(owner.getRotation(), 0.0, 0.0, 1.0);
 		GL11.glTranslatef(-spriteDisplayX/2, -spriteDisplayY/2, 0);
 		drawBegin(texCords, vertex);
 		GL11.glPopMatrix();

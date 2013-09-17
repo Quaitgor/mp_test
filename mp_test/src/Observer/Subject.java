@@ -6,7 +6,6 @@ package Observer;
  * Objects implement this interface.
  * */
 public interface Subject {
-
 	//Basic Methods for every Observer
 	public void register(Observer o);
 	public void unregister(Observer o);

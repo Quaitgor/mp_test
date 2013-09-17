@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+	<!--Imagepath-->
+	<graphics>res/sprites/player/firelvl0.png</graphics>
+	<!--Imagelayer-->
+	<layer>-72</layer>
+	<!--ImageSize-->
+	<width>256</width>
+	<height>256</height>
+	<!--Sprites-->
+	<nrOfSpritesX>1</nrOfSpritesX>
+	<nrOfSpritesY>4</nrOfSpritesY>
+	
+	<fireOnce>true</fireOnce>
+    <anim>
+        <item>0</item>
+        <item>2</item>
+        <item>50</item>
+    </anim>
+    <anim>
+        <item>0</item>
+        <item>3</item>
+        <item>100</item>
+    </anim>
+    <anim>
+        <item>-1</item>
+        <item>-1</item>
+        <item>1000</item>
+    </anim>
+	
+</textureData>

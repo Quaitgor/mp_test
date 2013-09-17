@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+	<!--Imagepath-->
+	<graphics>res/sprites/projectiles/lvl0.png</graphics>
+	<!--Imagelayer-->
+	<layer>-72</layer>
+	<!--ImageSize-->
+	<width>32</width>
+	<height>32</height>
+	<!--Hitbox-->
+	<hitboxSize>5</hitboxSize>
+	<hitboxSize>5</hitboxSize>
+	<hitboxOffset>0</hitboxOffset>
+	<hitboxOffset>0</hitboxOffset>
+</textureData>

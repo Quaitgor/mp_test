@@ -28,6 +28,8 @@ public class JavaAndXML {
 		return jxml;
 	}
 	
+	
+	//temporary method?
     public StringWriter JavatoXML(Class<?> contextClass) throws Exception {
     	JAXBContext context = JAXBContext.newInstance(contextClass);
     	Marshaller m = context.createMarshaller();

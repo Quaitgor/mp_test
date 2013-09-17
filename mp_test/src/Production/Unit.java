@@ -1,18 +1,16 @@
 package Production;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import Graphics.TextureLayer;
-import Observer.DeltaUpdater;
+import Conroller.Controller;
 import Observer.Observer;
+import Reader.JavaAndXML;
 
 
 @XmlRootElement
-public class Unit extends Basic implements Observer {
+public class Unit extends GraphicalElement implements Observer {
 
 	@XmlElement
 	private String name = "default";
@@ -23,69 +21,41 @@ public class Unit extends Basic implements Observer {
 	@XmlElement
 	private int damage = 10;
 	@XmlElement
-	private int speed = 10;
-	@XmlElement
-	private String[] graphics = {"none"};
-	@XmlElement
 	private String[] weaponlist = {"none"};
 	
-	protected double x = -100;
-	protected double y = -100;
-	private HashMap<Integer, TextureLayer> layers;
-	public double animationTiming = 0;
+	private static JavaAndXML jxml = JavaAndXML.getInstance();
 	private HashMap<Integer, Weapon> weapons;
 	
-	
 	public void init(){
-		layers = new HashMap<Integer, TextureLayer>();
+		super.init();
 		weapons = new HashMap<Integer, Weapon>();
-		//add all Texture layers
-		if(graphics[0] != "none"){
-				for(int i=0;i<graphics.length;i++){
-				addTexture(i,graphics[i]);
-			}
-		}
-		//add all weapons
 		if(weaponlist[0] != "none"){
-		for(int i=0;i<weaponlist.length;i++){
+			for(int i=0;i<weaponlist.length;i++){
 				addWeapon(i,weaponlist[i]);
 			}
 		}
-		DeltaUpdater.register(this);
 	}
 
 	private void addWeapon(int i, String weapon){
-		Weapon finishedWep = new Weapon(weapon, this);
-		weapons.put(i, finishedWep);
-	}
-
-	private void addTexture(int i, String graphics){
-		TextureLayer tex = new TextureLayer(graphics, this);
-		layers.put(i, tex);
+		System.out.println(i);
+		Weapon createdWeapon = (Weapon) jxml.XMLtoJava(Controller.weapons.get(weapon), Weapon.class);
+		createdWeapon.registerOwner(this);
+		weapons.put(i, createdWeapon);
 	}
 	
-	public void update(double delta) {
-		animationTiming += delta;
-		drawTextures();
-		if(animationTiming >= 60000){
-			animationTiming = 0;
-			Iterator<Integer> keySetIterator = layers.keySet().iterator();
-			while(keySetIterator.hasNext()){
-				Integer key = keySetIterator.next();
-				TextureLayer texture = layers.get(key);
-				texture.resetLastDelta();
-			}
+	//Weapon fire Testing!?!
+	public void update(double delta){
+		super.update(delta);
+		if(super.animationTiming <= 100){
+			fireWeapon(0);
 		}
 	}
 	
-	private void drawTextures(){
-		Iterator<Integer> keySetIterator = layers.keySet().iterator();
-		while(keySetIterator.hasNext()){
-			Integer key = keySetIterator.next();
-			TextureLayer texture = layers.get(key);
-			texture.draw(animationTiming);
+	public void fireWeapon(int nr){
+		if(nr < weapons.size()){
+			weapons.get(nr).fire();
+		}else{
+			System.out.println("No weapon in that slot");
 		}
 	}
-	
-
 }

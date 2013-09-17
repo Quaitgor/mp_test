@@ -12,8 +12,8 @@ public class TextWriter extends Basic implements Observer{
 	TextureLayer letters;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
 	private String text;
-	private int startX = 0;
-	private int startY = 0;
+	private double startX = 0;
+	private double startY = 0;
 	
 	public TextWriter(){
 		letters = new TextureLayer("alphabet", this);

@@ -27,5 +27,7 @@ public class TextureData extends DataCollector {
 	protected int nrOfSpritesY = 1;
 	@XmlElement
 	protected int anim[][]={{0,0,0}};
+	@XmlElement
+	protected boolean fireOnce = false;
 	
 }

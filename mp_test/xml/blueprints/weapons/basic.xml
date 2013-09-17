@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<weaponData>
+<weapon>
 	<test>wooto woooot woooot</test>
-</weaponData>
+	<projectiles>test</projectiles>
+	<graphics>pfirelvl0</graphics>
+</weapon>
