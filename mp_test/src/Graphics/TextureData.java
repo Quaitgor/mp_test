@@ -28,6 +28,8 @@ public class TextureData extends DataCollector {
 	@XmlElement
 	protected int anim[][]={{0,0,0}};
 	@XmlElement
-	protected boolean fireOnce = false;
+	protected boolean repeat = true;
+	@XmlElement
+	protected boolean playOnSpawn = true;
 	
 }

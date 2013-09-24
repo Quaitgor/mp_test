@@ -11,7 +11,9 @@
 	<nrOfSpritesX>1</nrOfSpritesX>
 	<nrOfSpritesY>4</nrOfSpritesY>
 	
-	<fireOnce>true</fireOnce>
+	<repeat>false</repeat>
+	<playOnSpawn>false</playOnSpawn>
+	
     <anim>
         <item>0</item>
         <item>2</item>

@@ -53,9 +53,13 @@ public class Unit extends GraphicalElement implements Observer {
 	
 	public void fireWeapon(int nr){
 		if(nr < weapons.size()){
-			weapons.get(nr).fire();
+			if(weapons.get(nr) != null){
+				weapons.get(nr).fire();
+			}else{
+				System.out.println("No weapon equiped in that slot");
+			}
 		}else{
-			System.out.println("No weapon in that slot");
+			System.out.println("I dont have that many weapons");
 		}
 	}
 }

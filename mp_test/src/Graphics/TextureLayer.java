@@ -39,7 +39,8 @@ public class TextureLayer {
 	private double lastDelta = 0;
 	private int spriteDisplayX = 0;
 	private int spriteDisplayY = 0;
-	private boolean playOnce = false;
+	private boolean repeat = true;
+	private boolean playOnSpawn = true;
 	private JavaAndXML jxml = JavaAndXML.getInstance();
     
 	
@@ -69,8 +70,13 @@ public class TextureLayer {
 		this.nrOfSpritesY = texD.nrOfSpritesY;
 		this.spriteDisplayX = imageWidth/nrOfSpritesX;
 		this.spriteDisplayY = imageHeight/nrOfSpritesY;
-		this.playOnce = texD.fireOnce;
+		this.repeat = texD.repeat;
+		this.playOnSpawn = texD.playOnSpawn;
 		this.anims = texD.anim;
+		if(!playOnSpawn){
+			animationStep = anims.length-1;
+			changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+		}
 		if(anims.length > 1){
 			hasAnimation = true;
 			this.lastDelta = ((GraphicalElement)owner).animationTiming;
@@ -96,15 +102,23 @@ public class TextureLayer {
 		}
 		GL11.glEnd();
 	}
-
+	
+	public void playAnimation(double animationTiming){
+		animationStep = 0;
+		lastDelta = animationTiming;
+		hasAnimation = true;
+		changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+	}
+	
 	private void checkSprite(double animationTiming){
 		if(anims[animationStep][2] <= animationTiming - lastDelta){
 			lastDelta = animationTiming;
 			if(animationStep+1 == anims.length){
-				if(playOnce){
+				if(!repeat){
 					hasAnimation = false;
+				}else{
+					animationStep = 0;
 				}
-				animationStep = 0;
 			}else{
 				animationStep++;
 			}

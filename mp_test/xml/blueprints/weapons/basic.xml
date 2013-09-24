@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <weapon>
 	<test>wooto woooot woooot</test>
-	<projectiles>test</projectiles>
+	<projectiles>lvl0</projectiles>
+	<projectiles>lvl0</projectiles>
+	<projectiles>lvl0</projectiles>
 	<graphics>pfirelvl0</graphics>
+	<cooldown>200</cooldown>
 </weapon>

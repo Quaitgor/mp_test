@@ -17,8 +17,9 @@ public class GraphicalElement extends Basic implements Observer{
 	private String[] graphics = {"none"};
 	@XmlElement
 	private String faction = "none";
-
-	private HashMap<Integer, TextureLayer> layers;
+	
+	
+	protected HashMap<Integer, TextureLayer> layers;
 	public double animationTiming = 0;
 	protected Basic owner = null;
 
