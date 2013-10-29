@@ -31,7 +31,9 @@ public class Weapon extends GraphicalElement{
 	
 	public void update(double delta){
 		super.update(delta);
-		cooldownLeft -= delta;
+		if(cooldownLeft > 0){
+			cooldownLeft -= delta;
+		}
 		this.x = owner.x;
 		this.y = owner.y;
 	}
@@ -49,11 +51,9 @@ public class Weapon extends GraphicalElement{
 		}else{
 			System.out.println("on CD!");			
 		}
-		//Projectile newUnit = (Projectile) jxml.XMLtoJava( (StringWriter)Controller.projectiles.get("lvl0"), Projectile.class);
 	}
 	
 	private void spawnProjectiles(){
-
 		if(projectiles[0] != "none"){
 			for(int i=0;i<projectiles.length;i++){
 				Projectile p = (Projectile) Controller.spawn(Controller.projectiles, projectiles[i], 150, 150, Projectile.class);

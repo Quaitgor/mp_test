@@ -3,6 +3,8 @@ package Conroller;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
+
+import Graphics.TextBlock;
 import Graphics.TextWriter;
 import Production.Basic;
 import Production.Unit;
@@ -50,8 +52,21 @@ public class Controller{
 		Unit y = (Unit) spawn(basicUnitsBP, "player", 240, 240, Unit.class);
 		x.setPosition(400, 100);
 		y.setPosition(400, 300);
+		
+		TextWriter t = TextWriter.getInstance();
+		
+		TextBlock testTest = new TextBlock("test", "" +
+				"I HAVE TO WAIT \\w8WAIT \\w8\\w8WAIT NEW LINE\\lb" +
+				"YAY TEXT CONTINUES");
+		testTest.setWaitTime(800);
+		testTest.setPos(300, 100);
+		testTest.setState(true);
+		
+		TextBlock testTest2 = new TextBlock("test2", "" +
+				"asdasdasdasdadsadqeqweqeq\\w8.\\w8.\\w8.", 50);
+		testTest2.setPos(500, 500);
+		testTest2.setState(true);
 		/*
-		TextWriter t = new TextWriter();
 		t.setPosition(400, 200);
 		t.writeText("ONLY CAPITAL LETTERS FOR NOW|LETS ROCK");
 		*/

@@ -18,7 +18,7 @@ public class GraphicalElement extends Basic implements Observer{
 	@XmlElement
 	private String faction = "none";
 	
-	
+	double limit = 3000;
 	protected HashMap<Integer, TextureLayer> layers;
 	public double animationTiming = 0;
 	protected Basic owner = null;
@@ -33,11 +33,10 @@ public class GraphicalElement extends Basic implements Observer{
 		}
 		DeltaUpdater.register(this);
 	}
+	
 	public void update(double delta) {
 		animationTiming += delta;
 		drawTextures();
-		
-		double limit = 3000;
 		//improve graphics reset (overflow prevention of double animationTiming?)
 		if(animationTiming >= limit){
 			animationTiming -= limit;

@@ -58,7 +58,7 @@ public class JavaAndXML {
 	public StringWriter readXML(String filePath) {
 		FileInputStream fileInputStream = null;
 		StringWriter writer = new StringWriter();
-		char[] buffer = new char[1024];
+		char[] buffer = new char[10240];
 		try {
 			fileInputStream = new FileInputStream(filePath);
 			Reader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
