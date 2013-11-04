@@ -1,4 +1,4 @@
 mp_test
 =======
 
-Multiplayer Testing
+Originaly Multiplayer Testing, now complete rework of the basic game
