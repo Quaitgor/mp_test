@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -55,19 +56,17 @@ public class JavaAndXML {
 		return obj;
     }
 
-	public StringWriter readXML(String filePath) {
-		FileInputStream fileInputStream = null;
+	public StringWriter readXML(InputStream inputStream) {
 		StringWriter writer = new StringWriter();
 		char[] buffer = new char[10240];
 		try {
-			fileInputStream = new FileInputStream(filePath);
-			Reader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+			Reader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 			int n;
 			while ((n = reader.read(buffer)) != -1) {
 				writer.write(buffer, 0, n);
 			}
 			writer.close();
-			fileInputStream.close();
+			inputStream.close();
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

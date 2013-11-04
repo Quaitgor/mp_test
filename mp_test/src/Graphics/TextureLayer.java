@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.CodeSource;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -47,8 +50,20 @@ public class TextureLayer {
 	public TextureLayer(String texD, Basic owner){
 		this.owner = owner;
 		getTexD(texD);
+		CodeSource src = getClass().getProtectionDomain().getCodeSource();
 		try {
-			tex = TextureLoader.getTexture("PNG", new FileInputStream(new File(texturepath)), GL11.GL_NEAREST);
+			InputStream textureFile = null;
+			if (src.getLocation().toString().endsWith(".jar")) {
+				String newTexturepath = texturepath.substring(4, texturepath.length());
+				textureFile = this.getClass().getResourceAsStream("/"+newTexturepath);
+				if(textureFile == null){
+					//if no png found use file in res folder next to the jar
+					textureFile = new FileInputStream(new File(texturepath));
+				}
+			}else{
+				textureFile = new FileInputStream(new File(texturepath));
+			}
+			tex = TextureLoader.getTexture("PNG", textureFile, GL11.GL_NEAREST);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
@@ -131,14 +146,6 @@ public class TextureLayer {
 		selectedSpriteY = spriteCords[1];
 		calculateSprite();
 	}
-
-	/*
-	public void resetAnim(){
-		animationStep = 0;
-		hasAnimation = true;
-	}
-	*/
-	
 	
 	private void calculateSprite(){
 		texCords = new float[]{0,0,0,0};

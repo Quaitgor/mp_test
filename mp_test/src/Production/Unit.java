@@ -48,7 +48,7 @@ public class Unit extends GraphicalElement implements Observer {
 		super.update(delta);
 		//Tests
 		if(super.animationTiming <= 100){
-			//fireWeapon(0);
+			fireWeapon(0);
 		}
 	}
 	

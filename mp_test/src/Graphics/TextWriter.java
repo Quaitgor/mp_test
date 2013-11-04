@@ -49,14 +49,18 @@ public class TextWriter extends Basic implements Observer{
 					int[] texCords = getLetterCords(a);
 					letters.changeSprite(texCords);
 					letters.draw();
-					x += 16;
+					if(texCords[1] == 4 || texCords[1] == 5){
+						x += 16;
+					}else{
+						x += 12;
+					}
 				}else{
 					//Commands for TextWriter
 					//new Line
 					String command = text.substring(i, i+3);
 					if(command.equals("\\lb")){
 						x = tB.getX();
-						y += 20;
+						y += 22;
 						i += 2;
 					}
 				}
@@ -69,61 +73,64 @@ public class TextWriter extends Basic implements Observer{
 		writeText(delta);
 	}
 	
+	//use font.png, rescale to 768xY
+	
+	
 	public int[] getLetterCords(char a){
 		switch(a){
-			case 'A': return new int[]{0,0};
-			case 'B': return new int[]{1,0};
-			case 'C': return new int[]{2,0};
-			case 'D': return new int[]{3,0};
-			case 'E': return new int[]{4,0};
-			case 'F': return new int[]{5,0};
-			case 'G': return new int[]{6,0};
-			case 'H': return new int[]{7,0};
-			case 'I': return new int[]{8,0};
-			case 'J': return new int[]{9,0};
-			case 'K': return new int[]{10,0};
-			case 'L': return new int[]{11,0};
-			case 'M': return new int[]{12,0};
-			case 'N': return new int[]{13,0};
-			case 'O': return new int[]{14,0};
-			case 'P': return new int[]{15,0};
-			case 'Q': return new int[]{16,0};
-			case 'R': return new int[]{17,0};
-			case 'S': return new int[]{18,0};
-			case 'T': return new int[]{19,0};
-			case 'U': return new int[]{20,0};
-			case 'V': return new int[]{21,0};
-			case 'W': return new int[]{22,0};
-			case 'X': return new int[]{23,0};
-			case 'Y': return new int[]{24,0};
-			case 'Z': return new int[]{25,0};
+			case 'A': return new int[]{1,4};
+			case 'B': return new int[]{2,4};
+			case 'C': return new int[]{3,4};
+			case 'D': return new int[]{4,4};
+			case 'E': return new int[]{5,4};
+			case 'F': return new int[]{6,4};
+			case 'G': return new int[]{7,4};
+			case 'H': return new int[]{8,4};
+			case 'I': return new int[]{9,4};
+			case 'J': return new int[]{10,4};
+			case 'K': return new int[]{11,4};
+			case 'L': return new int[]{12,4};
+			case 'M': return new int[]{13,4};
+			case 'N': return new int[]{14,4};
+			case 'O': return new int[]{15,4};
+			case 'P': return new int[]{0,5};
+			case 'Q': return new int[]{1,5};
+			case 'R': return new int[]{2,5};
+			case 'S': return new int[]{3,5};
+			case 'T': return new int[]{4,5};
+			case 'U': return new int[]{5,5};
+			case 'V': return new int[]{6,5};
+			case 'W': return new int[]{7,5};
+			case 'X': return new int[]{8,5};
+			case 'Y': return new int[]{9,5};
+			case 'Z': return new int[]{10,5};
 
-			case 'a': return new int[]{0,1};
-			case 'b': return new int[]{1,1};
-			case 'c': return new int[]{2,1};
-			case 'd': return new int[]{3,1};
-			case 'e': return new int[]{4,1};
-			case 'f': return new int[]{5,1};
-			case 'g': return new int[]{6,1};
-			case 'h': return new int[]{7,1};
-			case 'i': return new int[]{8,1};
-			case 'j': return new int[]{9,1};
-			case 'k': return new int[]{10,1};
-			case 'l': return new int[]{11,1};
-			case 'm': return new int[]{12,1};
-			case 'n': return new int[]{13,1};
-			case 'o': return new int[]{14,1};
-			case 'p': return new int[]{15,1};
-			case 'q': return new int[]{16,1};
-			case 'r': return new int[]{17,1};
-			case 's': return new int[]{18,1};
-			case 't': return new int[]{19,1};
-			case 'u': return new int[]{20,1};
-			case 'v': return new int[]{21,1};
-			case 'w': return new int[]{22,1};
-			case 'x': return new int[]{23,1};
-			case 'y': return new int[]{24,1};
-			case 'z': return new int[]{25,1};
+			case 'a': return new int[]{1,6};
+			case 'b': return new int[]{2,6};
+			case 'c': return new int[]{3,6};
+			case 'd': return new int[]{4,6};
+			case 'e': return new int[]{5,6};
+			case 'f': return new int[]{6,6};
+			case 'g': return new int[]{7,6};
+			case 'h': return new int[]{8,6};
+			case 'i': return new int[]{9,6};
+			case 'j': return new int[]{10,6};
+			case 'k': return new int[]{11,6};
+			case 'l': return new int[]{12,6};
+			case 'm': return new int[]{13,6};
+			case 'n': return new int[]{14,6};
+			case 'o': return new int[]{15,6};
+			case 'p': return new int[]{0,7};
+			case 'q': return new int[]{1,7};
+			case 'r': return new int[]{2,7};
+			case 's': return new int[]{3,7};
+			case 't': return new int[]{4,7};
+			case 'u': return new int[]{5,7};
+			case 'v': return new int[]{6,7};
+			case 'w': return new int[]{7,7};
+			case 'x': return new int[]{8,7};
+			case 'y': return new int[]{9,7};
+			case 'z': return new int[]{10,7};
 			
 			case '0': return new int[]{0,0};
 			case '1': return new int[]{0,0};
@@ -144,7 +151,7 @@ public class TextWriter extends Basic implements Observer{
 			case '%': return new int[]{0,0};
 			case '^': return new int[]{0,0};
 			case '&': return new int[]{0,0};
-			case '*': return new int[]{0,0};
+			case '*': return new int[]{10,2};
 			case '(': return new int[]{0,0};
 			case ')': return new int[]{0,0};
 			case '-': return new int[]{0,0};
@@ -152,8 +159,8 @@ public class TextWriter extends Basic implements Observer{
 			case '+': return new int[]{0,0};
 			case '=': return new int[]{0,0};
 			
-			case '.': return new int[]{0,0};
-			case ',': return new int[]{0,0};
+			case '.': return new int[]{14,2};
+			case ',': return new int[]{12,2};
 			case '<': return new int[]{0,0};
 			case '>': return new int[]{0,0};
 			case '/': return new int[]{0,0};

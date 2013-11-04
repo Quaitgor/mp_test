@@ -56,7 +56,7 @@ public class Weapon extends GraphicalElement{
 	private void spawnProjectiles(){
 		if(projectiles[0] != "none"){
 			for(int i=0;i<projectiles.length;i++){
-				Projectile p = (Projectile) Controller.spawn(Controller.projectiles, projectiles[i], 150, 150, Projectile.class);
+				Projectile p = (Projectile) Controller.spawn(Controller.projectiles, projectiles[i], 150+i*10, 150, Projectile.class);
 			}
 		}
 	}

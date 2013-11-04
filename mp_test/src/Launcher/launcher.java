@@ -1,3 +1,4 @@
+package Launcher;
 import Graphics.GraphicSync;
 import Network.Client;
 import Network.Server;

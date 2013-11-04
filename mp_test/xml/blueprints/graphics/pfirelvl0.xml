@@ -17,12 +17,12 @@
     <anim>
         <item>0</item>
         <item>2</item>
-        <item>50</item>
+        <item>100</item>
     </anim>
     <anim>
         <item>0</item>
         <item>3</item>
-        <item>100</item>
+        <item>200</item>
     </anim>
     <anim>
         <item>-1</item>

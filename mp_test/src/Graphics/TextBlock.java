@@ -85,10 +85,12 @@ public class TextBlock {
 				//text.getChars(step, step+1, temp, 0);
 				if (temp.equals("\\")){
 					String command = text.substring(step, step+3);
+					//wait command
 					if(command.equals("\\w8")){
 						nextFragmentDouble += 3*textSpeed;
 						step += 2;
 					}
+					//line break command
 					if(command.equals("\\lb")){
 						textFragment = textFragment + "\\lb";
 						step += 2;
