@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<textureData>
+	<!--Imagepath-->
+	<graphics>res/sprites/player/charge.png</graphics>
+	<!--Imagelayer-->
+	<layer>-72</layer>
+	<!--ImageSize-->
+	<width>256</width>
+	<height>256</height>
+	<!--Sprites-->
+	<nrOfSpritesX>1</nrOfSpritesX>
+	<nrOfSpritesY>4</nrOfSpritesY>
+	
+	<repeat>false</repeat>
+	<playOnSpawn>false</playOnSpawn>
+	
+    <anim>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </anim>
+    <anim>
+        <item>0</item>
+        <item>0</item>
+        <item>200</item>
+    </anim>
+    <anim>
+        <item>0</item>
+        <item>1</item>
+        <item>200</item>
+    </anim>
+    <anim>
+        <item>0</item>
+        <item>2</item>
+        <item>200</item>
+    </anim>
+    <anim>
+        <item>0</item>
+        <item>3</item>
+        <item>200</item>
+    </anim>
+    <anim>
+        <item>-1</item>
+        <item>-1</item>
+        <item>0</item>
+    </anim>
+	
+</textureData>

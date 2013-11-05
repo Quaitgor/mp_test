@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<weapon>
+	<!--Spawned projectiles-->
+	<projectiles>charge</projectiles>
+	
+	<!--Offset of the graphic to the owner-->
+	<offset>0</offset>
+	<offset>0</offset>
+	
+	<!--Animation played (on unit)-->
+	<!--Update player charge graphics-->
+	<graphics>pchargeD</graphics>
+	<!--the second graphic is used as a charging graphic-->
+	<graphics>pcharge</graphics>
+	
+	<!--Delay until weapon is ready again-->
+	<cooldown>0</cooldown>
+	
+	
+	<!--Key bound to weapon-->
+	<key>s</key>
+	
+	<!--Hold down key makes continous fire-->
+	<keyDownPossible>true</keyDownPossible>
+	<!--Maximal amount of energy collected (when key down)-->
+	<maxEnergy>2000</maxEnergy>
+	<!--Dynamic cooldown (depending on charged level when fired-->
+	<dynamicCD>1</dynamicCD>
+	
+	<!--Fires on keyDown(false) or keyUp(true)-->
+	<fireOnRelease>true</fireOnRelease>
+	<!--plays second Layer when fire is released-->
+	<animOnRelease>true</animOnRelease>
+	
+	<!--Offset list for projectiles-->
+	<pOffset>70</pOffset>
+	<pOffset>0</pOffset>
+</weapon>
