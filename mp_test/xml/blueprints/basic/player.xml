@@ -6,8 +6,6 @@
     <hp>1</hp>
 	<!--Default Damage-->
     <damage>10</damage>
-	<!--Default Weapons-->
-    <Weapon>none</Weapon>
 	<!--Default Speed-->
     <speed>10</speed>
 	<!--Graphics-->
@@ -16,5 +14,7 @@
 	<!--Scale Size-->
     <size>1</size>
 	<faction>player</faction>
+	<!--Weapons-->
 	<weaponlist>basic</weaponlist>
+	<weaponlist>charge</weaponlist>
 </unit>

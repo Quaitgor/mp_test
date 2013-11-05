@@ -14,9 +14,9 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import production.Basic;
 import production.GraphicalElement;
-import read.JavaAndXML;
+import reader.JavaAndXML;
 
-import conroller.Controller;
+import controller.Controller;
 
 
 public class TextureLayer {
@@ -91,8 +91,8 @@ public class TextureLayer {
 		this.playOnSpawn = texD.playOnSpawn;
 		this.anims = texD.anim;
 		if(!playOnSpawn){
-			animationStep = anims.length-1;
-			changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+			animationStep = -1;
+			changeSprite(new int[]{anims[anims.length-1][0],anims[anims.length-1][1]});
 		}
 		if(anims.length > 1){
 			hasAnimation = true;
@@ -119,27 +119,38 @@ public class TextureLayer {
 		}
 		GL11.glEnd();
 	}
-	
-	public void playAnimation(double animationTiming){
+
+	public void playAnimation(){
 		animationStep = 0;
-		lastDelta = animationTiming;
+		lastDelta = 0;
 		hasAnimation = true;
-		changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+	}
+	public void turnOnAnimation(){
+		if(!repeat){
+			playAnimation();
+			repeat = true;
+		}
+	}
+	public void stopAnimation(){
+		repeat = false;
 	}
 	
 	private void checkSprite(double animationTiming){
-		if(anims[animationStep][2] <= animationTiming - lastDelta){
-			lastDelta = animationTiming;
-			if(animationStep+1 == anims.length){
-				if(!repeat){
-					hasAnimation = false;
+		if(animationStep != -1){
+			if(anims[animationStep][2] <= animationTiming - lastDelta){
+				lastDelta = animationTiming;
+				if(animationStep+1 == anims.length){
+					if(!repeat){
+						hasAnimation = false;
+						animationStep = anims.length-1;
+					}else{
+						animationStep = 0;
+					}
 				}else{
-					animationStep = 0;
+					animationStep++;
 				}
-			}else{
-				animationStep++;
-			}
-			changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+				changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
+			}			
 		}
 	}
 	

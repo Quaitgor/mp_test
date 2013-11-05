@@ -15,7 +15,8 @@ public class DeltaUpdater{
 	private static DeltaUpdater DU = new DeltaUpdater();
 	
 	private DeltaUpdater(){
-		observers = new Vector<Observer>();}
+		observers = new Vector<Observer>();
+	}
 	
 	public static DeltaUpdater getInstance(){
 		return DU;

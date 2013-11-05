@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import production.*;
 
 @XmlRootElement
-public class TextureData extends DataCollector {
+public class TextureData extends DataInit {
 
 	@XmlElement
 	protected String graphics = "default";

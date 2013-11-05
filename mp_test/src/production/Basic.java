@@ -1,6 +1,6 @@
 package production;
 
-public class Basic extends DataCollector {
+public class Basic extends DataInit {
 
 	protected double x = -100;
 	protected double y = -100;
@@ -10,9 +10,9 @@ public class Basic extends DataCollector {
 		return new double[] {x,y};
 	}
 	
-	public void setPosition(int nx, int ny){
-		this.x = nx;
-		this.y = ny;
+	public void setPosition(double x2, double y2){
+		this.x = x2;
+		this.y = y2;
 	}
 	public int getRotation(){
 		return rotation;

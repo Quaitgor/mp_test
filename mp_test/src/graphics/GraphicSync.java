@@ -9,7 +9,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import conroller.Controller;
+import controller.Controller;
 
 
 public class GraphicSync{

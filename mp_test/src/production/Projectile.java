@@ -9,4 +9,8 @@ public class Projectile extends GraphicalElement {
 		super.init();
 		System.out.println("firing");
 	}
+	public void update(double delta){
+		super.update(delta);
+		this.x += 5;
+	}
 }
