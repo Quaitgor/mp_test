@@ -1,48 +1,51 @@
 package graphics;
 
-public class TextBlock {
-	//private HashMap<Integer, String> texts;
-	private String name = "default";
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import production.DataInit;
+
+@XmlRootElement
+public class TextBlock extends DataInit {
+
+	@XmlElement
 	private String text;
+	@XmlElement
+	private String font;
+	@XmlElement
 	private double textSpeed = 100;
+	@XmlElement
 	private double waitTime = 300;
+	@XmlElement
+	private int limit = 60;
+	@XmlElement
+	private double posX = 0;
+	@XmlElement
+	private double posY = 0;
+	@XmlElement
+	private boolean writeInSprite = false;
+	
+	private boolean state = false;
 	private String textFragment = null;
 	private int step = 0;
 	private int realChars = 0;
 	private double deltaSinceStart = 0;
 	private double nextFragmentDouble = 0;
 	private TextWriter tW = TextWriter.getInstance();
-	private double posX = 0;
-	private double posY = 0;
-	private boolean state = false;
 
-	public TextBlock(String name, String text, double textSpeed, double newWait){
-		this.name = name;
-		this.text = text;
-		this.textSpeed = textSpeed;
-		this.waitTime = newWait;
+	public void init(){
 		tW.addText(this);
-	}
-	
-	public TextBlock(String name, String text, double textSpeed){
-		this.name = name;
-		this.text = text;
-		this.textSpeed = textSpeed;
-		tW.addText(this);
-	}
-	
-	public TextBlock(String name, String text){
-		this.name = name;
-		this.text = text;
-		tW.addText(this);
+		this.state = true;
 	}
 	
 	public void setWaitTime(double newWait){
 		this.waitTime = newWait;
 	}
-	
-	public String getName(){
-		return name;
+	public int getLimit(){
+		return limit;
+	}
+	public String getFont(){
+		return font;
 	}
 	public double getX(){
 		return posX;
@@ -87,7 +90,7 @@ public class TextBlock {
 					String command = text.substring(step, step+3);
 					//wait command
 					if(command.equals("\\w8")){
-						nextFragmentDouble += 3*textSpeed;
+						nextFragmentDouble += waitTime;
 						step += 2;
 					}
 					//line break command
@@ -108,5 +111,9 @@ public class TextBlock {
 			}
 			step++;
 		}
+	}
+
+	public boolean getWriteForm() {
+		return writeInSprite;
 	}
 }

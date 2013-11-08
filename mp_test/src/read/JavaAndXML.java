@@ -16,7 +16,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import production.DataCollector;
+import production.DataInit;
 import production.Unit;
 
 
@@ -54,7 +54,7 @@ public class JavaAndXML {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		((DataCollector)obj).init();
+		((DataInit)obj).init();
 		return obj;
     }
 

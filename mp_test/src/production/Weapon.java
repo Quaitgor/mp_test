@@ -1,8 +1,5 @@
 package production;
 
-import java.io.StringWriter;
-import java.util.Iterator;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -145,7 +142,6 @@ public class Weapon extends GraphicalElement implements InputInterface{
 
 	@Override
 	public void register() {
-		System.out.println("registering");
 		InputControl.getInstance().registerKey(key, this);
 	}
 

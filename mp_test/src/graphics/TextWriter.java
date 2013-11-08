@@ -1,45 +1,118 @@
 package graphics;
 
+import java.awt.Font;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.TextureImpl;
+import org.newdawn.slick.util.ResourceLoader;
+
+import controller.Controller;
 
 import observer.DeltaUpdater;
 import observer.Observer;
 import production.Basic;
+import read.JavaAndXML;
 
 
 
 public class TextWriter extends Basic implements Observer{
 	TextureLayer letters;
 	private static TextWriter TW = new TextWriter();
-	public static HashMap<String, TextBlock> textBlocks;
+	public static HashMap<Integer, TextBlock> textBlocks;
+	public static HashMap<String, TrueTypeFont> fonts;
 	
+	private boolean antiAlias = false;
+	private SpriteFont spritefont;
+	private static boolean setup = false;
+
 	private TextWriter(){
+		spritefont = new SpriteFont();
 		letters = new TextureLayer("alphabet", this);
-		textBlocks = new HashMap<String, TextBlock>();
+		textBlocks = new HashMap<Integer, TextBlock>();
+		fonts = new HashMap<String, TrueTypeFont>();
+		
 		DeltaUpdater.register(this);
+
+		/*
+		// load a default java font
+		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		font = new TrueTypeFont(awtFont, antiAlias);
+		// load font from file
+		try {
+			InputStream inputStream	= ResourceLoader.getResourceAsStream("res/font/computer_pixel-7.ttf");
+			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont2 = awtFont2.deriveFont(40f); // set font size
+			font2 = new TrueTypeFont(awtFont2, antiAlias);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
 	}
 	
 	public static TextWriter getInstance(){
+		if(!setup){
+			setup = true;
+
+			Iterator<String> keySetIterator = Controller.fonts.keySet().iterator();
+			while(keySetIterator.hasNext()){
+				String key = keySetIterator.next();
+				JavaAndXML.getInstance().XMLtoJava(Controller.fonts.get(key), FontData.class);
+			}
+		}
 		return TW;
 	}
 
 	public void addText(TextBlock newText){
-		textBlocks.put(newText.getName(), newText);
+		textBlocks.put(textBlocks.size(), newText);
+	}
+
+	public void addFont(String name, TrueTypeFont newFont){
+		fonts.put(name, newFont);
 	}
 	
 	
 	public void writeText(double delta){
-		Iterator<String> keySetIterator = textBlocks.keySet().iterator();
+		Iterator<Integer> keySetIterator = textBlocks.keySet().iterator();
 		while(keySetIterator.hasNext()){
-			String key = keySetIterator.next();
+			int key = keySetIterator.next();
 			if(textBlocks.get(key).getState()){
-				writeIn(textBlocks.get(key), delta);
+				if(textBlocks.get(key).getWriteForm()){
+					writeInSprite(textBlocks.get(key), delta);
+				}else{
+					writeInTFF(textBlocks.get(key), delta);
+				}
 			}
 		}
 	}
 
-	private void writeIn(TextBlock tB, double delta){
+	private void writeInTFF(TextBlock tB, double delta){
+		String text = tB.getText(delta);
+		if(text != null){
+			x = tB.getX();
+			y = tB.getY();
+			int limit = tB.getLimit();
+			String rest = "";
+			double nrLines  = Math.floor(text.length()/limit);
+			if(text.substring((int)nrLines*limit, text.length()).length() <= 0){
+				nrLines--;
+			}
+			TextureImpl.bindNone();
+			for(int i=0; i<nrLines; i++){
+				String line = text.substring(i*limit, (i+1)*limit);
+				double dx = nrLines-i;
+				fonts.get(tB.getFont()).drawString((float)x, (float)(y-(dx*fonts.get(tB.getFont()).getHeight())), line, Color.white);
+			}
+			rest = text.substring((int)(nrLines)*limit, text.length());
+			fonts.get(tB.getFont()).drawString((float)x, (float)y, rest, Color.white);
+		}
+	}
+	
+	private void writeInSprite(TextBlock tB, double delta){
 		String text = tB.getText(delta);
 		if(text != null){
 			x = tB.getX();
@@ -47,7 +120,7 @@ public class TextWriter extends Basic implements Observer{
 			for(int i = 0; i < text.length(); i ++){
 				if (!text.substring(i, i+1).equals("\\")){
 					char a = text.charAt(i);
-					int[] texCords = getLetterCords(a);
+					int[] texCords = spritefont.getLetterCords(a);
 					letters.changeSprite(texCords);
 					letters.draw();
 					if(texCords[1] == 4 || texCords[1] == 5){
@@ -67,116 +140,11 @@ public class TextWriter extends Basic implements Observer{
 				}
 			}
 		}
-	}
-
+	}	
+	
 	@Override
 	public void update(double delta) {
 		writeText(delta);
-	}
-	
-	//use font.png, rescale to 768xY
-	
-	
-	public int[] getLetterCords(char a){
-		switch(a){
-			case 'A': return new int[]{1,4};
-			case 'B': return new int[]{2,4};
-			case 'C': return new int[]{3,4};
-			case 'D': return new int[]{4,4};
-			case 'E': return new int[]{5,4};
-			case 'F': return new int[]{6,4};
-			case 'G': return new int[]{7,4};
-			case 'H': return new int[]{8,4};
-			case 'I': return new int[]{9,4};
-			case 'J': return new int[]{10,4};
-			case 'K': return new int[]{11,4};
-			case 'L': return new int[]{12,4};
-			case 'M': return new int[]{13,4};
-			case 'N': return new int[]{14,4};
-			case 'O': return new int[]{15,4};
-			case 'P': return new int[]{0,5};
-			case 'Q': return new int[]{1,5};
-			case 'R': return new int[]{2,5};
-			case 'S': return new int[]{3,5};
-			case 'T': return new int[]{4,5};
-			case 'U': return new int[]{5,5};
-			case 'V': return new int[]{6,5};
-			case 'W': return new int[]{7,5};
-			case 'X': return new int[]{8,5};
-			case 'Y': return new int[]{9,5};
-			case 'Z': return new int[]{10,5};
-
-			case 'a': return new int[]{1,6};
-			case 'b': return new int[]{2,6};
-			case 'c': return new int[]{3,6};
-			case 'd': return new int[]{4,6};
-			case 'e': return new int[]{5,6};
-			case 'f': return new int[]{6,6};
-			case 'g': return new int[]{7,6};
-			case 'h': return new int[]{8,6};
-			case 'i': return new int[]{9,6};
-			case 'j': return new int[]{10,6};
-			case 'k': return new int[]{11,6};
-			case 'l': return new int[]{12,6};
-			case 'm': return new int[]{13,6};
-			case 'n': return new int[]{14,6};
-			case 'o': return new int[]{15,6};
-			case 'p': return new int[]{0,7};
-			case 'q': return new int[]{1,7};
-			case 'r': return new int[]{2,7};
-			case 's': return new int[]{3,7};
-			case 't': return new int[]{4,7};
-			case 'u': return new int[]{5,7};
-			case 'v': return new int[]{6,7};
-			case 'w': return new int[]{7,7};
-			case 'x': return new int[]{8,7};
-			case 'y': return new int[]{9,7};
-			case 'z': return new int[]{10,7};
-			
-			case '0': return new int[]{0,0};
-			case '1': return new int[]{0,0};
-			case '2': return new int[]{0,0};
-			case '3': return new int[]{0,0};
-			case '4': return new int[]{0,0};
-			case '5': return new int[]{0,0};
-			case '6': return new int[]{0,0};
-			case '7': return new int[]{0,0};
-			case '8': return new int[]{0,0};
-			case '9': return new int[]{0,0};
-			case '`': return new int[]{0,0};
-			case '~': return new int[]{0,0};
-			case '!': return new int[]{0,0};
-			case '@': return new int[]{0,0};
-			case '#': return new int[]{0,0};
-			case '$': return new int[]{0,0};
-			case '%': return new int[]{0,0};
-			case '^': return new int[]{0,0};
-			case '&': return new int[]{0,0};
-			case '*': return new int[]{10,2};
-			case '(': return new int[]{0,0};
-			case ')': return new int[]{0,0};
-			case '-': return new int[]{0,0};
-			case '_': return new int[]{0,0};
-			case '+': return new int[]{0,0};
-			case '=': return new int[]{0,0};
-			
-			case '.': return new int[]{14,2};
-			case ',': return new int[]{12,2};
-			case '<': return new int[]{0,0};
-			case '>': return new int[]{0,0};
-			case '/': return new int[]{0,0};
-			case '\\': return new int[]{0,0};
-			case '?': return new int[]{0,0};
-			case ':': return new int[]{0,0};
-			case ';': return new int[]{0,0};
-			case '"': return new int[]{0,0};
-			case '\'': return new int[]{0,0};
-			case '[': return new int[]{0,0};
-			case ']': return new int[]{0,0};
-			case '{': return new int[]{0,0};
-			case '}': return new int[]{0,0};
-			case '|': return new int[]{0,0};
-		}
-		return new int[]{-1,-1};
+		
 	}
 }

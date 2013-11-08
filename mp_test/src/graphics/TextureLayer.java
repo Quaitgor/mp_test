@@ -10,6 +10,7 @@ import java.security.CodeSource;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import production.Basic;
@@ -211,6 +212,7 @@ public class TextureLayer {
 		double[] position = owner.getPosition();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex.getTextureID());
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], layer);
