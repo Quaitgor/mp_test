@@ -1,7 +1,13 @@
-package graphics;
+package writer;
+
+import input.InputInterface;
+
+import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.newdawn.slick.opengl.renderer.LineStripRenderer;
 
 import production.DataInit;
 
@@ -31,10 +37,11 @@ public class TextBlock extends DataInit {
 	private int realChars = 0;
 	private double deltaSinceStart = 0;
 	private double nextFragmentDouble = 0;
-	private TextWriter tW = TextWriter.getInstance();
+	private HashMap<Integer, String> textLines;
 
 	public void init(){
-		tW.addText(this);
+		TextWriter.getInstance().addText(this);
+		textLines = new HashMap<Integer, String>();
 		this.state = true;
 	}
 	
@@ -61,13 +68,14 @@ public class TextBlock extends DataInit {
 		return realChars;
 	}
 	
-	public String getText(double delta){
+	public HashMap<Integer, String> getText(double delta){
 		if(state){
 			if(step < text.length()){
 				this.deltaSinceStart += delta;
 				getTextFragment();
 			}
-			return textFragment;
+			return textLines;
+			//return textFragment;
 		}
 		return null;
 	}
@@ -80,7 +88,43 @@ public class TextBlock extends DataInit {
 		state = newState;
 	}
 	
+	
+	private int lineNr = 0;
 	private void getTextFragment(){
+		
+
+		if (nextFragmentDouble < deltaSinceStart){
+			nextFragmentDouble += textSpeed;
+			if(step < text.length()){
+				String temp = text.substring(step, step+1);
+				if(temp.equals("\\")){
+					String command = text.substring(step, step+3);
+					if(command.equals("\\w8")){
+						nextFragmentDouble += waitTime;
+						step += 2;
+					}
+					//line break command
+					if(command.equals("\\lb")){
+						lineNr++;
+					}
+				}else{
+					char x[] = new char[text.length()];
+					text.getChars(step, step+1, x, 0);
+					String newText = textLines.get(lineNr);
+					if(newText == null){
+						newText = ""+x[0];
+					}else{
+						newText = newText + x[0];
+					}
+					textLines.put(lineNr, newText);
+					realChars++;
+				}
+			}
+			step++;
+		}
+		
+		
+		/*
 		if (nextFragmentDouble < deltaSinceStart){
 			nextFragmentDouble += textSpeed;
 			if(step < text.length()){
@@ -110,7 +154,7 @@ public class TextBlock extends DataInit {
 				}
 			}
 			step++;
-		}
+		}*/
 	}
 
 	public boolean getWriteForm() {

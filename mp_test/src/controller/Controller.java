@@ -1,17 +1,11 @@
 package controller;
 
-import graphics.TextBlock;
-import graphics.TextWriter;
-import graphics.TextureData;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.CodeSource;
 import java.util.HashMap;
 import java.util.jar.JarEntry;
@@ -20,7 +14,8 @@ import java.util.jar.JarInputStream;
 import production.Basic;
 import production.Unit;
 import reader.JavaAndXML;
-import testing.InputControl;
+import writer.TextBlock;
+import writer.TextWriter;
 
 public class Controller {
 	public boolean isServer = false;
@@ -125,7 +120,7 @@ public class Controller {
 		x.setPosition(400, 100);
 		y.setPosition(400, 300);
 		// Tests
-		TextWriter t = TextWriter.getInstance();
+		TextWriter.getInstance();
 
 		jxml.XMLtoJava(Controller.texts.get("test1"), TextBlock.class);
 		jxml.XMLtoJava(Controller.texts.get("test2"), TextBlock.class);

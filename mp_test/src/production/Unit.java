@@ -22,7 +22,6 @@ public class Unit extends GraphicalElement {
 	@XmlElement
 	private String[] weaponlist = { "none" };
 
-	private static JavaAndXML jxml = JavaAndXML.getInstance();
 	private HashMap<Integer, Weapon> weapons;
 
 	public void init() {
@@ -37,15 +36,15 @@ public class Unit extends GraphicalElement {
 
 	private void addWeapon(int i, String weapon) {
 		//System.out.println(i);
-		Weapon createdWeapon = (Weapon) jxml.XMLtoJava(Controller.weapons.get(weapon), Weapon.class);
+		Weapon createdWeapon = (Weapon) JavaAndXML.getInstance().XMLtoJava(Controller.weapons.get(weapon), Weapon.class);
 		createdWeapon.registerOwner(this);
 		weapons.put(i, createdWeapon);
 	}
-
-	// Weapon fire Testing!?!
-	public void update(double delta) {
-		super.update(delta);
-	}
+	/*
+	private void removeWeapon(int i){
+		weapons.get(i).unregister();
+		weapons.remove(i);
+	}*/
 
 	public void fireWeapon(int nr) {
 		if (nr < weapons.size()) {
@@ -57,5 +56,12 @@ public class Unit extends GraphicalElement {
 		} else {
 			System.out.println("I dont have that many weapons");
 		}
+	}
+	
+	@Override
+	public void destroyObject(){
+		super.destroyObject();
+		weapons.clear();
+		weapons = null;
 	}
 }

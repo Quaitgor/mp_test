@@ -7,7 +7,6 @@ import production.*;
 
 @XmlRootElement
 public class TextureData extends DataInit {
-
 	@XmlElement
 	protected String graphics = "default";
 	@XmlElement
@@ -32,5 +31,4 @@ public class TextureData extends DataInit {
 	protected boolean repeat = true;
 	@XmlElement
 	protected boolean playOnSpawn = true;
-	
 }

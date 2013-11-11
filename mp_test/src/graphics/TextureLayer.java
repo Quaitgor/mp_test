@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.CodeSource;
 
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import production.Basic;
@@ -47,7 +45,6 @@ public class TextureLayer {
 	private int spriteDisplayY = 0;
 	private boolean repeat = true;
 	private boolean playOnSpawn = true;
-	private JavaAndXML jxml = JavaAndXML.getInstance();
     
 	
 	public TextureLayer(String texD, Basic owner){
@@ -77,7 +74,7 @@ public class TextureLayer {
 	
 
 	private void getTexD(String graphic){
-		TextureData texD = (TextureData) jxml.XMLtoJava(Controller.graphics.get(graphic), TextureData.class);
+		TextureData texD = (TextureData) JavaAndXML.getInstance().XMLtoJava(Controller.graphics.get(graphic), TextureData.class);
 		this.imageWidth = texD.width;
 		this.imageHeight = texD.height;
 		this.layer = texD.layer;
@@ -220,5 +217,9 @@ public class TextureLayer {
 		GL11.glTranslatef(-spriteDisplayX/2, -spriteDisplayY/2, 0);
 		drawBegin(texCords, vertex);
 		GL11.glPopMatrix();
+	}
+	
+	public void destroyObject(){
+		owner = null;
 	}
 }

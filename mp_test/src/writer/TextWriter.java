@@ -1,22 +1,19 @@
-package graphics;
+package writer;
 
-import java.awt.Font;
-import java.io.InputStream;
+import graphics.TextureLayer;
+
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
-import org.newdawn.slick.util.ResourceLoader;
-
 import controller.Controller;
 
 import observer.DeltaUpdater;
 import observer.Observer;
 import production.Basic;
-import read.JavaAndXML;
+import reader.JavaAndXML;
 
 
 
@@ -25,8 +22,6 @@ public class TextWriter extends Basic implements Observer{
 	private static TextWriter TW = new TextWriter();
 	public static HashMap<Integer, TextBlock> textBlocks;
 	public static HashMap<String, TrueTypeFont> fonts;
-	
-	private boolean antiAlias = false;
 	private SpriteFont spritefont;
 	private static boolean setup = false;
 
@@ -35,29 +30,12 @@ public class TextWriter extends Basic implements Observer{
 		letters = new TextureLayer("alphabet", this);
 		textBlocks = new HashMap<Integer, TextBlock>();
 		fonts = new HashMap<String, TrueTypeFont>();
-		
-		DeltaUpdater.register(this);
-
-		/*
-		// load a default java font
-		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		font = new TrueTypeFont(awtFont, antiAlias);
-		// load font from file
-		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream("res/font/computer_pixel-7.ttf");
-			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont2 = awtFont2.deriveFont(40f); // set font size
-			font2 = new TrueTypeFont(awtFont2, antiAlias);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		DeltaUpdater.registerDelta(this);
 	}
 	
 	public static TextWriter getInstance(){
 		if(!setup){
 			setup = true;
-
 			Iterator<String> keySetIterator = Controller.fonts.keySet().iterator();
 			while(keySetIterator.hasNext()){
 				String key = keySetIterator.next();
@@ -75,7 +53,6 @@ public class TextWriter extends Basic implements Observer{
 		fonts.put(name, newFont);
 	}
 	
-	
 	public void writeText(double delta){
 		Iterator<Integer> keySetIterator = textBlocks.keySet().iterator();
 		while(keySetIterator.hasNext()){
@@ -91,7 +68,10 @@ public class TextWriter extends Basic implements Observer{
 	}
 
 	private void writeInTFF(TextBlock tB, double delta){
-		String text = tB.getText(delta);
+		HashMap<Integer, String> texts = tB.getText(delta);
+		String text = texts.get(0);
+		System.out.println(texts.toString());
+		//TODO here change textwriter lines depending on texts!!!!
 		if(text != null){
 			x = tB.getX();
 			y = tB.getY();
@@ -113,7 +93,10 @@ public class TextWriter extends Basic implements Observer{
 	}
 	
 	private void writeInSprite(TextBlock tB, double delta){
-		String text = tB.getText(delta);
+		HashMap<Integer, String> texts = tB.getText(delta);
+		String text = texts.get(0);
+		System.out.println(texts.toString());
+		//TODO here change textwriter lines depending on texts!!!!
 		if(text != null){
 			x = tB.getX();
 			y = tB.getY();
@@ -145,6 +128,15 @@ public class TextWriter extends Basic implements Observer{
 	@Override
 	public void update(double delta) {
 		writeText(delta);
-		
+	}
+	
+	@Override
+	public void destroyObject(){
+		super.destroyObject();
+		fonts.clear();
+		textBlocks.clear();
+		fonts = null;
+		textBlocks = null;
+		DeltaUpdater.unregisterDelta(this);
 	}
 }

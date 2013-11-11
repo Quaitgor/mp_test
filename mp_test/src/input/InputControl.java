@@ -1,15 +1,9 @@
-package testing;
+package input;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import observer.DeltaUpdater;
 import observer.Observer;
-import observer.Subject;
-
 import org.lwjgl.input.Keyboard;
-
-import production.Weapon;
 
 
 
@@ -20,7 +14,7 @@ public class InputControl implements Observer{
 	
 	private InputControl(){
 		registredInterfaces = new HashMap<Integer, InputInterface>();
-		DeltaUpdater.register(this);
+		DeltaUpdater.registerDelta(this);
 	}
 
 	public static InputControl getInstance(){

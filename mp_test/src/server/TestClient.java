@@ -1,17 +1,17 @@
-package network;
+package server;
 
-public class Server implements Runnable{
+public class TestClient implements Runnable{
 
 
 	public void networking(){
-		System.out.println("serv serv serv");
+		System.out.println("net net net");
 	}
 
 	public void run() {
 		while(true){
 			try {
 				networking();
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -2,7 +2,6 @@ package reader;
  
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +17,7 @@ import javax.xml.bind.Unmarshaller;
 
 import production.DataInit;
 import production.Unit;
+
 
  
 public class JavaAndXML {

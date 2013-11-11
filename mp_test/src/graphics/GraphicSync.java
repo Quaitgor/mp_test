@@ -19,8 +19,6 @@ public class GraphicSync{
 	public static double delta = 0;
 	public static final int FRAMEWIDTH = 1280;
 	public static final int FRAMEHEIGHT = 768;
-	private static Controller con;
-	private static Thread conThread;
 
 	public GraphicSync(){
 		System.out.println("starting Graphics");
@@ -34,7 +32,7 @@ public class GraphicSync{
 		initGL(FRAMEWIDTH,FRAMEHEIGHT);
 		initGame();
 		System.out.println("starting Controller");
-		con = new Controller();
+		new Controller();
 		while (isRunning) {
 			if (Display.isCloseRequested()) {
 				isRunning = false;

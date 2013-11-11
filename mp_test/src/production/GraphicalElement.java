@@ -33,7 +33,16 @@ public class GraphicalElement extends Basic implements Observer{
 				addTexture(i,graphics[i]);
 			}
 		}
-		DeltaUpdater.register(this);
+		DeltaUpdater.registerDelta(this);
+	}
+	
+	@Override
+	public void destroyObject (){
+		super.destroyObject();
+		DeltaUpdater.unregisterDelta(this);
+		layers.clear();
+		layers = null;
+		owner = null;
 	}
 	
 	public void update(double delta) {

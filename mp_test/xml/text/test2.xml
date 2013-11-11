@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <textBlock>
     <text>
-	this is the second textblock with diffrent font
+	this is the second textblock with diffrent font \\lb
+	testing second line
 	</text>
     <textSpeed>50</textSpeed>
     <waitTime>2000</waitTime>

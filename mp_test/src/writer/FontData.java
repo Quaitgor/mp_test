@@ -1,4 +1,4 @@
-package graphics;
+package writer;
 
 import java.awt.Font;
 import java.io.InputStream;

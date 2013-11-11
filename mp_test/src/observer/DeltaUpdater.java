@@ -26,14 +26,14 @@ public class DeltaUpdater{
 	/**
 	 * register() adds the object to the vector and the objects will get updated delta values
 	 * */
-	public static void register(Observer newObserver) {
+	public static void registerDelta(Observer newObserver) {
 		observers.add(newObserver);
 	}
 
 	/**
 	 * unregister() removes the object from the list and stopping the delta update for that object
 	 * */
-	public void unregister(Observer deleteObserver) {
+	public static void unregisterDelta(Observer deleteObserver) {
 		int observerIndex = observers.indexOf(deleteObserver);
 		if(observerIndex >= 0)observers.remove(observerIndex);
 	}
