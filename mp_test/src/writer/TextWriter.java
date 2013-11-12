@@ -19,11 +19,10 @@ import reader.JavaAndXML;
 
 public class TextWriter extends Basic implements Observer{
 	TextureLayer letters;
-	private static TextWriter TW = new TextWriter();
+	private static TextWriter TW = null;
 	public static HashMap<Integer, TextBlock> textBlocks;
 	public static HashMap<String, TrueTypeFont> fonts;
 	private SpriteFont spritefont;
-	private static boolean setup = false;
 
 	private TextWriter(){
 		spritefont = new SpriteFont();
@@ -34,8 +33,8 @@ public class TextWriter extends Basic implements Observer{
 	}
 	
 	public static TextWriter getInstance(){
-		if(!setup){
-			setup = true;
+		if(TW == null){
+			TW = new TextWriter();
 			Iterator<String> keySetIterator = Controller.fonts.keySet().iterator();
 			while(keySetIterator.hasNext()){
 				String key = keySetIterator.next();
@@ -69,34 +68,25 @@ public class TextWriter extends Basic implements Observer{
 
 	private void writeInTFF(TextBlock tB, double delta){
 		HashMap<Integer, String> texts = tB.getText(delta);
-		String text = texts.get(0);
-		System.out.println(texts.toString());
-		//TODO here change textwriter lines depending on texts!!!!
-		if(text != null){
+		if(texts != null){
 			x = tB.getX();
 			y = tB.getY();
-			int limit = tB.getLimit();
-			String rest = "";
-			double nrLines  = Math.floor(text.length()/limit);
-			if(text.substring((int)nrLines*limit, text.length()).length() <= 0){
-				nrLines--;
-			}
-			TextureImpl.bindNone();
-			for(int i=0; i<nrLines; i++){
-				String line = text.substring(i*limit, (i+1)*limit);
-				double dx = nrLines-i;
+			for(int i=0; i<texts.size(); i++){
+				String line = texts.get(i);
+				double dx = texts.size()-i;
+				TextureImpl.bindNone();
 				fonts.get(tB.getFont()).drawString((float)x, (float)(y-(dx*fonts.get(tB.getFont()).getHeight())), line, Color.white);
 			}
-			rest = text.substring((int)(nrLines)*limit, text.length());
-			fonts.get(tB.getFont()).drawString((float)x, (float)y, rest, Color.white);
 		}
 	}
 	
 	private void writeInSprite(TextBlock tB, double delta){
 		HashMap<Integer, String> texts = tB.getText(delta);
 		String text = texts.get(0);
+		/*
 		System.out.println(texts.toString());
-		//TODO here change textwriter lines depending on texts!!!!
+		*/
+		//TODO here change textwriter lines depending on texts HashMap Multilines!
 		if(text != null){
 			x = tB.getX();
 			y = tB.getY();

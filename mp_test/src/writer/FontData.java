@@ -2,6 +2,7 @@ package writer;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.security.CodeSource;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,8 +29,13 @@ public class FontData extends DataInit {
 	}
 	public void init(){
 		TrueTypeFont font = null;
+		String path = file;
+		CodeSource src = getClass().getProtectionDomain().getCodeSource();
+		if (src.getLocation().toString().endsWith(".jar")) {
+			path = file.substring(4, file.length());
+		}
 		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream(file);
+			InputStream inputStream	= ResourceLoader.getResourceAsStream(path);
 			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont2 = awtFont2.deriveFont(Float.valueOf(size+"f")); // set font size
 			font = new TrueTypeFont(awtFont2, antiAlias);

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <textBlock>
     <text>
-	Now I can write what I want in XML with this, 
-	only a linebreak is missing for now but the w\\w8a\\w8\\w8i\\w8\\w8\\w8t command works
+testing\\lbthe linebreak\\lb
+on multiple lines\\lb
+asadsdas
 	</text>
     <textSpeed>50</textSpeed>
     <waitTime>200</waitTime>

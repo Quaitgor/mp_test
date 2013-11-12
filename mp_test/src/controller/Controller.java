@@ -113,15 +113,13 @@ public class Controller {
 		addBlueprints("blueprints/weapons", weapons);
 		addBlueprints("blueprints/projectiles", projectiles);
 		addBlueprints("text", texts);
-		addBlueprints("font", fonts);
-
+		addBlueprints("blueprints/font", fonts);
+		TextWriter.getInstance();
 		Unit x = (Unit) spawn(basicUnitsBP, "enemy_red", 150, 150, Unit.class);
 		Unit y = (Unit) spawn(basicUnitsBP, "player", 240, 240, Unit.class);
 		x.setPosition(400, 100);
 		y.setPosition(400, 300);
 		// Tests
-		TextWriter.getInstance();
-
 		jxml.XMLtoJava(Controller.texts.get("test1"), TextBlock.class);
 		jxml.XMLtoJava(Controller.texts.get("test2"), TextBlock.class);
 
