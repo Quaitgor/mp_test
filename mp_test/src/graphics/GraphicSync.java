@@ -19,20 +19,24 @@ public class GraphicSync{
 	public static double delta = 0;
 	public static final int FRAMEWIDTH = 1280;
 	public static final int FRAMEHEIGHT = 768;
-
-	public GraphicSync(){
+	private static GraphicSync gs = null;
+	
+	private GraphicSync(){
 		System.out.println("starting Graphics");
 		deltaUpdater = DeltaUpdater.getInstance();
 		getDelta();
-		initDisplay();
+		initData();
+	}
+	public static GraphicSync getInstance(){
+		if(gs == null){
+			gs = new GraphicSync();
+		}
+		return gs;
 	}
 	
-	
-	private void initDisplay(){
+	public void initDisplay(){
 		initGL(FRAMEWIDTH,FRAMEHEIGHT);
-		initGame();
-		System.out.println("starting Controller");
-		new Controller();
+		Controller.getInstance().start();
 		while (isRunning) {
 			if (Display.isCloseRequested()) {
 				isRunning = false;
@@ -49,16 +53,10 @@ public class GraphicSync{
 	}
 	
 	
-	private void render(){
-    	GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        getDelta();
-        deltaUpdater.setDelta(delta);
+	private void initData(){
+		System.out.println("starting Controller");
+		Controller.getInstance();
 	}
-	
-	private void initGame(){
-		//todo fill
-	}
-	
 	
 	private void initGL(int width, int height){
 		try {
@@ -84,6 +82,13 @@ public class GraphicSync{
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glLoadIdentity();
+	}
+
+	
+	private void render(){
+    	GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        getDelta();
+        deltaUpdater.setDelta(delta);
 	}
 	
     private static double getDelta() {

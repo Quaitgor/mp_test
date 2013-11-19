@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.CodeSource;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -50,20 +48,19 @@ public class TextureLayer {
 	public TextureLayer(String texD, Basic owner){
 		this.owner = owner;
 		getTexD(texD);
-		CodeSource src = getClass().getProtectionDomain().getCodeSource();
 		try {
-			InputStream textureFile = null;
-			if (src.getLocation().toString().endsWith(".jar")) {
-				String newTexturepath = texturepath.substring(4, texturepath.length());
-				textureFile = this.getClass().getResourceAsStream("/"+newTexturepath);
-				if(textureFile == null){
+			InputStream textureStream = null;
+			if (Controller.isJarFile) {
+				String newTexturepath = texturepath.substring(Controller.resPath.length(), texturepath.length());
+				textureStream = this.getClass().getResourceAsStream("/"+newTexturepath);
+				if(textureStream == null){
 					//if no png found use file in res folder next to the jar
-					textureFile = new FileInputStream(new File(texturepath));
+					textureStream = new FileInputStream(new File(texturepath));
 				}
 			}else{
-				textureFile = new FileInputStream(new File(texturepath));
+				textureStream = new FileInputStream(new File(texturepath));
 			}
-			tex = TextureLoader.getTexture("PNG", textureFile, GL11.GL_NEAREST);
+			tex = TextureLoader.getTexture("PNG", textureStream, GL11.GL_NEAREST);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {

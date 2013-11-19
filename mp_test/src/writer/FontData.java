@@ -2,14 +2,13 @@ package writer;
 
 import java.awt.Font;
 import java.io.InputStream;
-import java.security.CodeSource;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
+import controller.Controller;
 import production.DataInit;
 
 @XmlRootElement
@@ -24,15 +23,11 @@ public class FontData extends DataInit {
 	@XmlElement
 	private String size = "40f";
 
-	public String getName(){
-		return name;
-	}
 	public void init(){
 		TrueTypeFont font = null;
 		String path = file;
-		CodeSource src = getClass().getProtectionDomain().getCodeSource();
-		if (src.getLocation().toString().endsWith(".jar")) {
-			path = file.substring(4, file.length());
+		if (Controller.isJarFile) {
+			path = file.substring(Controller.resPath.length(), file.length());
 		}
 		try {
 			InputStream inputStream	= ResourceLoader.getResourceAsStream(path);
@@ -46,5 +41,4 @@ public class FontData extends DataInit {
 			TextWriter.getInstance().addFont(name, font);
 		}
 	}
-	
 }

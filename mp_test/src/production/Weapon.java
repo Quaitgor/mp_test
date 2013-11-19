@@ -6,7 +6,7 @@ import input.InputInterface;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+import reader.JavaAndXML;
 import controller.Controller;
 
 @XmlRootElement
@@ -73,7 +73,12 @@ public class Weapon extends GraphicalElement implements InputInterface {
 					pOffsetX = pOffset[i * 2];
 					pOffsetY = pOffset[i * 2 + 1];
 				}
-				Controller.spawn(Controller.projectiles, projectiles[i], x + pOffsetX, y+ pOffsetY, Projectile.class);
+				Projectile test = (Projectile) JavaAndXML.getInstance()
+						.XMLtoJava(Controller.projectiles.get(projectiles[i]),
+								Projectile.class);
+				test.setPosition(x + pOffsetX, y + pOffsetY);
+				// Controller.spawn(Controller.projectiles, projectiles[i], x +
+				// pOffsetX, y+ pOffsetY, Projectile.class);
 			}
 		}
 	}

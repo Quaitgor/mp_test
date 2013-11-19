@@ -1,8 +1,6 @@
 package reader;
  
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,17 +14,17 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import production.DataInit;
-import production.Unit;
-
-
  
 public class JavaAndXML {
 	
-	private static JavaAndXML jxml = new JavaAndXML();
+	private static JavaAndXML jxml = null;
 	
 	private JavaAndXML(){}
 	
 	public static JavaAndXML getInstance(){
+		if(jxml == null){
+			jxml = new JavaAndXML();
+		}
 		return jxml;
 	}
 	
@@ -37,9 +35,9 @@ public class JavaAndXML {
     	Marshaller m = context.createMarshaller();
     	m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         StringWriter stringWriter = new StringWriter();
-    	Unit object = new Unit();
+        DataInit object = new DataInit();
     	m.marshal(object, stringWriter);
-    	m.marshal(object, new File("xml/blueprints/basic/1.xml"));
+    	//m.marshal(object, new File("xml/blueprints/basic/1.xml"));
     	return stringWriter;
     }
     
@@ -68,9 +66,6 @@ public class JavaAndXML {
 			}
 			writer.close();
 			inputStream.close();
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

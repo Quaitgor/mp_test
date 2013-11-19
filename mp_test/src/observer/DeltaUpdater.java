@@ -12,14 +12,17 @@ public class DeltaUpdater{
 	private static Vector<Observer> observers;
 	private double delta;
 	
-	private static DeltaUpdater DU = new DeltaUpdater();
+	private static DeltaUpdater du = null;
 	
 	private DeltaUpdater(){
 		observers = new Vector<Observer>();
 	}
 	
 	public static DeltaUpdater getInstance(){
-		return DU;
+		if (du == null){
+			du = new DeltaUpdater();
+		}
+		return du;
 	}
 	
 

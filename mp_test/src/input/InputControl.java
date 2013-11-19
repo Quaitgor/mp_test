@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 public class InputControl implements Observer{
 	private HashMap<Integer, InputInterface> registredInterfaces;
 	
-	private static InputControl controller = new InputControl();
+	private static InputControl ic = null;
 	
 	private InputControl(){
 		registredInterfaces = new HashMap<Integer, InputInterface>();
@@ -18,7 +18,10 @@ public class InputControl implements Observer{
 	}
 
 	public static InputControl getInstance(){
-		return controller;
+		if(ic == null){
+			ic = new InputControl();
+		}
+		return ic;
 	}
 	
 	
@@ -34,16 +37,15 @@ public class InputControl implements Observer{
 	
 	private void keyboardState(){
         while (Keyboard.next()) {
-    		InputInterface ci = null;
 	    	if (Keyboard.getEventKeyState()) {
 	    		//Fire event once when pressed
-	    		ci = registredInterfaces.get(Keyboard.getEventKey());
+	    		InputInterface ci = registredInterfaces.get(Keyboard.getEventKey());
 	    		if(ci != null){
 	    			ci.keyDown(Keyboard.getKeyName(Keyboard.getEventKey()));
 	    		}
 	    	}else{
 	    		//Fire event once when released
-	    		ci = registredInterfaces.get(Keyboard.getEventKey());
+	    		InputInterface ci = registredInterfaces.get(Keyboard.getEventKey());
 	    		if(ci != null){
 	    			ci.keyUp(Keyboard.getKeyName(Keyboard.getEventKey()));
 	    		}

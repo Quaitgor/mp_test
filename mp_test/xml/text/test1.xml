@@ -7,6 +7,7 @@ asadsdas
 	</text>
     <textSpeed>50</textSpeed>
     <waitTime>200</waitTime>
+    <lineBreakTime>2</lineBreakTime>
     <limit>60</limit>
     <posX>200</posX>
     <posY>60</posY>

@@ -25,7 +25,7 @@ public class TextBlock extends DataInit {
 	@XmlElement
 	private double posY = 0;
 	@XmlElement
-	private boolean writeInSprite = false;
+	private double lineBreakTime = 1;
 	
 	private boolean state = false;
 	private int step = 0;
@@ -33,6 +33,7 @@ public class TextBlock extends DataInit {
 	private double deltaSinceStart = 0;
 	private double nextFragmentDouble = 0;
 	private HashMap<Integer, String> textLines;
+	private int lineNr = 0;
 
 	public void init(){
 		TextWriter.getInstance().addText(this);
@@ -67,7 +68,7 @@ public class TextBlock extends DataInit {
 		if(state){
 			if(step < text.length()){
 				this.deltaSinceStart += delta;
-				getTextFragment();
+				createTextFragment();
 			}
 			return textLines;
 		}
@@ -82,9 +83,7 @@ public class TextBlock extends DataInit {
 		state = newState;
 	}
 	
-	
-	private int lineNr = 0;
-	private void getTextFragment(){
+	private void createTextFragment(){
 		if (nextFragmentDouble < deltaSinceStart){
 			nextFragmentDouble += textSpeed;
 			if(step < text.length()){
@@ -99,7 +98,7 @@ public class TextBlock extends DataInit {
 					//line break command
 					if(command.equals("\\lb")){
 						lineNr++;
-						nextFragmentDouble += waitTime*2;
+						nextFragmentDouble += waitTime*lineBreakTime;
 						step += 2;
 					}
 				}else{
@@ -117,9 +116,5 @@ public class TextBlock extends DataInit {
 			}
 			step++;
 		}
-	}
-
-	public boolean getWriteForm() {
-		return writeInSprite;
 	}
 }
