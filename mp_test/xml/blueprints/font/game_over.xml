@@ -3,5 +3,5 @@
     <file>res/font/game_over.ttf</file>
     <antiAlias>false</antiAlias>
     <name>game_over</name>
-	<size>55</size>
+	<size>35</size>
 </fontData>
