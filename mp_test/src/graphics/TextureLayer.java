@@ -5,31 +5,44 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import production.Basic;
-import production.GraphicalElement;
-import reader.JavaAndXML;
-
 import controller.Controller;
+import production.*;
 
-
-public class TextureLayer {
+@XmlRootElement
+public class TextureLayer extends DataInit {
+	@XmlElement
+	protected String graphics = "default";
+	@XmlElement
+	protected int height = 100;
+	@XmlElement
+	protected int width = 100;
+	@XmlElement
+	protected int layer = -75;
+	@XmlElement
+	protected int[] hitboxSize = {0,0};
+	@XmlElement
+	protected int[] hitboxOffset = {0,0};
+	@XmlElement
+	protected int nrOfSpritesX = 1;
+	@XmlElement
+	protected int nrOfSpritesY = 1;
+	@XmlElement
+	protected int anim[][]={{0,0,0}};
+	@XmlElement
+	protected boolean repeat = true;
+	@XmlElement
+	protected boolean playOnSpawn = true;
 
 	private Texture tex;
-	private int imageHeight;
-	private int imageWidth;
-	private int layer;
-	private String texturepath;
-	private Basic owner;
-	private int nrOfSpritesX = 1;
-	private int nrOfSpritesY = 1;
-	private int[] hitboxSize = {0,0};
-	private int[] hitboxOffset = {0,0};
     private float[] texCords;
-    private int[][] anims;
 	public float texX = 0.0f;
     public float texY = 0.0f;
     public float texXp = 1.0f;
@@ -41,24 +54,21 @@ public class TextureLayer {
 	private double lastDelta = 0;
 	private int spriteDisplayX = 0;
 	private int spriteDisplayY = 0;
-	private boolean repeat = true;
-	private boolean playOnSpawn = true;
-    
-	
-	public TextureLayer(String texD, Basic owner){
+	protected GraphicalElement owner;
+
+	public void init(GraphicalElement owner){
 		this.owner = owner;
-		getTexD(texD);
 		try {
 			InputStream textureStream = null;
 			if (Controller.isJarFile) {
-				String newTexturepath = texturepath.substring(Controller.resPath.length(), texturepath.length());
+				String newTexturepath = graphics.substring(Controller.resPath.length(), graphics.length());
 				textureStream = this.getClass().getResourceAsStream("/"+newTexturepath);
 				if(textureStream == null){
-					//if no png found use file in res folder next to the jar
-					textureStream = new FileInputStream(new File(texturepath));
+					//if no png is found => try res folder
+					textureStream = new FileInputStream(new File(graphics));
 				}
 			}else{
-				textureStream = new FileInputStream(new File(texturepath));
+				textureStream = new FileInputStream(new File(graphics));
 			}
 			tex = TextureLoader.getTexture("PNG", textureStream, GL11.GL_NEAREST);
 		} catch (FileNotFoundException e) {
@@ -66,40 +76,25 @@ public class TextureLayer {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-		calculateSprite();
-	}
-	
-
-	private void getTexD(String graphic){
-		TextureData texD = (TextureData) JavaAndXML.getInstance().XMLtoJava(Controller.graphics.get(graphic), TextureData.class);
-		this.imageWidth = texD.width;
-		this.imageHeight = texD.height;
-		this.layer = texD.layer;
-		this.texturepath = texD.graphics;
-		this.hitboxSize = texD.hitboxSize;
-		this.hitboxOffset= texD.hitboxOffset;
-		this.nrOfSpritesX = texD.nrOfSpritesX;
-		this.nrOfSpritesY = texD.nrOfSpritesY;
-		this.spriteDisplayX = imageWidth/nrOfSpritesX;
-		this.spriteDisplayY = imageHeight/nrOfSpritesY;
-		this.repeat = texD.repeat;
-		this.playOnSpawn = texD.playOnSpawn;
-		this.anims = texD.anim;
+		//prepare variables
+		this.spriteDisplayX = width/nrOfSpritesX;
+		this.spriteDisplayY = height/nrOfSpritesY;
 		if(!playOnSpawn){
 			animationStep = -1;
-			changeSprite(new int[]{anims[anims.length-1][0],anims[anims.length-1][1]});
+			changeSprite(new int[]{anim[anim.length-1][0],anim[anim.length-1][1]});
 		}
-		if(anims.length > 1){
+		if(anim.length > 1){
 			hasAnimation = true;
 			this.lastDelta = ((GraphicalElement)owner).animationTiming;
 		}
+		calculateSprite();
 	}
 	
 	public void resetLastDelta(double remove){
 		this.lastDelta -= remove;
-		
 	}
 	
+
 	private void drawBegin(float[] texCords, float[] vertex){
 		GL11.glBegin(GL11.GL_QUADS);
 		{
@@ -114,38 +109,38 @@ public class TextureLayer {
 		}
 		GL11.glEnd();
 	}
-
+	
 	public void playAnimation(){
 		animationStep = 0;
 		lastDelta = 0;
 		hasAnimation = true;
 	}
+	
 	public void turnOnAnimation(){
 		if(!repeat){
 			playAnimation();
 			repeat = true;
 		}
 	}
+	
 	public void stopAnimation(){
 		repeat = false;
 	}
 	
 	private void checkSprite(double animationTiming){
-		if(animationStep != -1){
-			if(anims[animationStep][2] <= animationTiming - lastDelta){
-				lastDelta = animationTiming;
-				if(animationStep+1 == anims.length){
-					if(!repeat){
-						hasAnimation = false;
-						animationStep = anims.length-1;
-					}else{
-						animationStep = 0;
-					}
+		if(animationStep != -1 && anim[animationStep][2] <= animationTiming - lastDelta){
+			lastDelta = animationTiming;
+			if(animationStep+1 == anim.length){
+				if(!repeat){
+					hasAnimation = false;
+					animationStep = anim.length-1;
 				}else{
-					animationStep++;
+					animationStep = 0;
 				}
-				changeSprite(new int[]{anims[animationStep][0],anims[animationStep][1]});
-			}			
+			}else{
+				animationStep++;
+			}
+			changeSprite(new int[]{anim[animationStep][0],anim[animationStep][1]});
 		}
 	}
 	
@@ -158,17 +153,18 @@ public class TextureLayer {
 	private void calculateSprite(){
 		texCords = new float[]{0,0,0,0};
 		if(selectedSpriteX != -1){
-			int spriteWidth = imageHeight/nrOfSpritesX;
-			int spriteHeight = imageWidth/nrOfSpritesY;
-			texX =  (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX) /  imageHeight);
-			texY =  (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY) /  imageWidth);
-			texXp = (float)((double)(selectedSpriteX * imageHeight/nrOfSpritesX+spriteWidth) /  imageHeight);
-			texYp = (float)((double)(selectedSpriteY * imageWidth/nrOfSpritesY+spriteHeight) /  imageWidth);
+			int spriteWidth = height/nrOfSpritesX;
+			int spriteHeight = width/nrOfSpritesY;
+			texX =  (float)((double)(selectedSpriteX * height/nrOfSpritesX) /  height);
+			texY =  (float)((double)(selectedSpriteY * width/nrOfSpritesY) /  width);
+			texXp = (float)((double)(selectedSpriteX * height/nrOfSpritesX+spriteWidth) /  height);
+			texYp = (float)((double)(selectedSpriteY * width/nrOfSpritesY+spriteHeight) /  width);
 			texCords = new float[] {texX,texY,texXp,texYp};
 		}
 	}
 	
 	private void drawHitbox(){
+		//draw graphics size
 		double[] position = owner.getPosition();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -181,8 +177,8 @@ public class TextureLayer {
 		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
 		drawBegin(texc, vertex);
 		GL11.glPopMatrix();
-		//draw smaller Hitbox
 		if(hitboxSize != null){
+			//draw Hitbox
 			float[] vertex2 = {-hitboxSize[0]/2,-hitboxSize[1]/2,hitboxSize[0]/2, hitboxSize[1]/2};
 			GL11.glColor4f(0.5f, 0.5f, 0.5f, 0.7f);
 			GL11.glPushMatrix();
@@ -196,17 +192,15 @@ public class TextureLayer {
 	public void draw(){
 		draw(0);
 	}
+	
 	public void draw(double animationTiming){
-		//ToDo fix sprited image position
 		if(hasAnimation) checkSprite(animationTiming);
 		float[] vertex = {0,0,spriteDisplayX,spriteDisplayY};
-		
 		if (Controller.showHitbox) drawHitbox();
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		double[] position = owner.getPosition();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex.getTextureID());
 		GL11.glPushMatrix();
 		GL11.glTranslatef((int)position[0], (int)position[1], layer);

@@ -1,14 +1,15 @@
 package production;
 
-import graphics.TextureLayer;
 
 import java.util.HashMap;
 import java.util.Iterator;
-
 import javax.xml.bind.annotation.XmlElement;
 
+import graphics.TextureLayer;
+import controller.Controller;
 import observer.DeltaUpdater;
 import observer.Observer;
+import reader.JavaAndXML;
 
 
 public class GraphicalElement extends Basic implements Observer{
@@ -61,7 +62,8 @@ public class GraphicalElement extends Basic implements Observer{
 	
 	
 	private void addTexture(int i, String graphics){
-		TextureLayer tex = new TextureLayer(graphics, this);
+		TextureLayer tex = (TextureLayer) JavaAndXML.getInstance().XMLtoJava(Controller.graphics.get(graphics), TextureLayer.class);
+		tex.init(this);
 		layers.put(i, tex);
 	}
 	

@@ -24,7 +24,7 @@ public class TextWriter extends Basic implements Observer {
 
 	private TextWriter() {
 		//spritefont = new SpriteFont();
-		letters = new TextureLayer("alphabet", this);
+		letters = (TextureLayer) JavaAndXML.getInstance().XMLtoJava(Controller.graphics.get("alphabet"), TextureLayer.class);
 		textBlocks = new HashMap<Integer, TextBlock>();
 		fonts = new HashMap<String, TrueTypeFont>();
 		DeltaUpdater.registerDelta(this);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<textureData>
+<textureLayer>
 	<!--Imagepath-->
     <graphics>res/sprites/enemys/enemy_red.png</graphics>
 	<!--Imagelayer-->
@@ -12,4 +12,4 @@
 	<hitboxSize>42</hitboxSize>
 	<hitboxOffset>-2</hitboxOffset>
 	<hitboxOffset>0</hitboxOffset>
-</textureData>
+</textureLayer>

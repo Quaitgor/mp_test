@@ -84,8 +84,6 @@ public class Controller {
 				}
 				map.put(mapKey, stringWriter);
 			}
-		} else {
-			System.out.println("no exist: " + path);
 		}
 	}
 
