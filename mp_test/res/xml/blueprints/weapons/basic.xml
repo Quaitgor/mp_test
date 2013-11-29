@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<weapon>
+	<!--if set as chargeweapon => fire on release, energy collection, projectiles list spawn depending on energy-->
+	<chargeWeapon>false</chargeWeapon>
+	<fastFire>true</fastFire>
+	<!--all fire at the same time-->
+	<projectiles>lvl0</projectiles>
+	<projectiles>lvl0</projectiles>
+	<projectiles>lvl0</projectiles>
+	
+	<!--Offset of the graphic to the owner-->
+	<offset>0</offset>
+	<offset>0</offset>
+	<!--Offset for projectiles (from weapon position) 2 pairs = one projectile -->
+	<pOffset>70</pOffset>
+	<pOffset>0</pOffset>
+	<pOffset>70</pOffset>
+	<pOffset>-50</pOffset>
+	<pOffset>70</pOffset>
+	<pOffset>50</pOffset>
+	
+	<!--Animation played (on unit)-->
+	<graphics>pfirelvl0</graphics>
+	
+	<!--Delay until weapon is ready again, minimum CD-->
+	<cooldown>0</cooldown>
+	
+	<!--Key bound to weapon-->
+	<keys>a</keys>
+	
+</weapon>

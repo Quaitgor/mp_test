@@ -13,32 +13,34 @@ import production.DataInit;
 
 @XmlRootElement
 public class FontData extends DataInit {
-	
-	@XmlElement
-	private String file;
-	@XmlElement
-	private boolean antiAlias = false;
-	@XmlElement
-	private String name = "default";
-	@XmlElement
-	private String size = "40f";
 
-	public void init(){
-		TrueTypeFont font = null;
-		String path = file;
-		if (Controller.isJarFile) {
-			path = file.substring(Controller.resPath.length(), file.length());
-		}
-		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream(path);
-			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont2 = awtFont2.deriveFont(Float.valueOf(size+"f")); // set font size
-			font = new TrueTypeFont(awtFont2, antiAlias);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if(font != null){
-			TextWriter.getInstance().addFont(name, font);
-		}
+    @XmlElement
+    private String file;
+    @XmlElement
+    private boolean antiAlias = false;
+    @XmlElement
+    private String name = "default";
+    @XmlElement
+    private String size = "40f";
+
+    public void init() {
+	TrueTypeFont font = null;
+	String path = file;
+	if (Controller.isJarFile) {
+	    path = file.substring(Controller.config.getString("source").length(), file.length());
 	}
+	try {
+	    InputStream inputStream = ResourceLoader.getResourceAsStream(path);
+	    Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+	    awtFont2 = awtFont2.deriveFont(Float.valueOf(size + "f")); // set
+								       // font
+								       // size
+	    font = new TrueTypeFont(awtFont2, antiAlias);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	if (font != null) {
+	    TextWriter.getInstance().addFont(name, font);
+	}
+    }
 }

@@ -7,9 +7,10 @@ package observer;
  * */
 public interface Observer {
 
-	/**
-	 * update() is the method that every registered Object needs to recieve the updated delta.
-	 * With this method the DeltaUpdater can send to each object the new value of delta
-	 * */
-	public void update(double delta);
+    /**
+     * update() is the method that every registered Object needs to recieve the
+     * updated delta. With this method the DeltaUpdater can send to each object
+     * the new value of delta
+     * */
+    public void update(double delta);
 }

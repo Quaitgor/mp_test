@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<weapon>
+
+	<!--if set as chargeweapon => fire on release, energy collection, projectiles list spawn depending on energy-->
+	<chargeWeapon>true</chargeWeapon>
+	
+	<!--Maximal amount of energy collected (when key down)-->
+	<maxEnergy>2000</maxEnergy>
+	<!--no charge projectile-->
+	<projectiles>charge</projectiles>
+	<!--lvl 1 projectiles-->
+	<powerLevels>1000</powerLevels>
+	<projectiles>charge</projectiles>
+	<!--lvl 2 projectiles-->
+	<powerLevels>1500</powerLevels>
+	<projectiles>charge</projectiles>
+	<!--lvl 3 projectiles-->
+	<powerLevels>2000</powerLevels>
+	<projectiles>charge</projectiles>
+	
+	<!--Offset of the graphic to the owner-->
+	<offset>0</offset>
+	<offset>0</offset>
+	<!--Offset for projectiles (from weapon position)-->
+	<!--Projectile lvl0-->
+	<pOffset>70</pOffset>
+	<pOffset>0</pOffset>
+	<!--Projectile lvl1-->
+	<pOffset>70</pOffset>
+	<pOffset>-50</pOffset>
+	<!--Projectile lvl2-->
+	<pOffset>70</pOffset>
+	<pOffset>50</pOffset>
+	<!--Projectile lvl2-->
+	<pOffset>70</pOffset>
+	<pOffset>80</pOffset>
+	
+	<!--Animation played (on unit)-->
+	<graphics>pchargeD</graphics>
+	<!--if chargeWeapon => second graphic is used as charging animation-->
+	<graphics>pcharge</graphics>
+	
+	<!--Delay until weapon is ready again, minimum CD-->
+	<cooldown>0</cooldown>
+	<!--Dynamic cooldown scale(depending on charged level when fired-->
+	<dynamicCD>1</dynamicCD>
+	
+	<!--Key bound to weapon-->
+	<keys>s</keys>
+	
+</weapon>
