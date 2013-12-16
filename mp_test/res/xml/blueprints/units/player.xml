@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit>
+	<!--Default Mind-->
+    <mind>none</mind>
+	<!--Default Health-->
+    <hp>1</hp>
+	<!--Default Damage-->
+    <damage>10</damage>
+	<!--Default Speed-->
+    <speed>10</speed>
+	<!--Graphics-->
+    <graphics>player</graphics>
+    <graphics>playerl2</graphics>
+	<!--Scale Size-->
+    <size>1</size>
+	<faction>player</faction>
+	<!--Weapons-->
+	<weaponlist>basic</weaponlist>
+	<weaponlist>charge</weaponlist>
+</unit>

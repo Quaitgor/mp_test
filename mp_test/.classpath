@@ -10,5 +10,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jar/slick-util.jar"/>
+	<classpathentry kind="lib" path="lib/jar/bounce-0.18.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
