@@ -29,11 +29,11 @@ import org.bounce.text.xml.XMLStyleConstants;
 
 import controller.Controller;
 
-public class Tabbed extends JPanel {
+public class RightSide extends JPanel {
     static JEditorPane editor = null;
 	private JPanel xmlDisplay = null;
     
-	public Tabbed() {
+	public RightSide() {
 		super(new BorderLayout());
 		JTabbedPane tab = new JTabbedPane();
 		xmlDisplay = new JPanel();

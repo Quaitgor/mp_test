@@ -1,10 +1,12 @@
 package explorer;
 
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 
 public class ExplorerWindow {
 
@@ -20,8 +22,9 @@ public class ExplorerWindow {
 		frame.setLocation(0, (int) ((bounds.height / 2) - (frame.getHeight() / 2)));
 
 		// Create and set up the content pane.
-		Explorer leftSide = new Explorer();
-		Tabbed rightSide = new Tabbed();
+
+		Component leftSide = new LeftSide();
+		Component rightSide = new RightSide();
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSide, rightSide);
 		splitPane.setOneTouchExpandable(true);

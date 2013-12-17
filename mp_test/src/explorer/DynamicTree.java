@@ -5,18 +5,26 @@ import java.awt.Toolkit;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeWillExpandListener;
 
 import controller.Controller;
 
@@ -27,15 +35,18 @@ public class DynamicTree extends JPanel {
 	protected DefaultTreeModel treeModel;
 	public JTree tree;
 	private Toolkit toolkit = Toolkit.getDefaultToolkit();
-
-	public DynamicTree() {
+	TreePath selected = null;
+	private HashMap<DefaultMutableTreeNode, StringWriter> xmlList;
+	
+	public DynamicTree(HashMap<DefaultMutableTreeNode, StringWriter> xmlList) {
 		super(new GridLayout(1, 0));
-
+		this.xmlList = xmlList;
 		rootNode = new DefaultMutableTreeNode("Library");
 		treeModel = new DefaultTreeModel(rootNode);
-		//treeModel.addTreeModelListener(new MyTreeModelListener());
 		tree = new JTree(treeModel);
 		tree.addTreeSelectionListener(new MyTreeSelectionListener());
+		tree.addTreeExpansionListener(new MyTreeExpansionListener());
+		tree.addTreeWillExpandListener(new MyTreeWillExpandListener());
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 		JScrollPane scrollPane = new JScrollPane(tree);
@@ -89,54 +100,57 @@ public class DynamicTree extends JPanel {
 		return childNode;
 	}
 
+	// reacts to Selections made
 	class MyTreeSelectionListener implements TreeSelectionListener {
-
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-			if(node.isLeaf()){
-				String[] path = e.getPath().toString().split(",");
-				
-				String xmlLibName = path[1].substring(1,2).toLowerCase();
-				xmlLibName += path[path.length-2].trim();
-				
-				String xmlFileName = path[path.length-1].trim();
-				xmlFileName = xmlFileName.substring(0, xmlFileName.length()-1);
-				StringWriter xmlFile = Controller.library.get(xmlLibName).get(xmlFileName);
-				ByteArrayInputStream test =  new ByteArrayInputStream(xmlFile.toString().getBytes());
+			JTree tree = (JTree) e.getSource();
+			selected = e.getPath();
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+			if (selectedNode.isLeaf()) {
+				StringWriter xmlFile = xmlList.get(selectedNode);
+				ByteArrayInputStream test = new ByteArrayInputStream(xmlFile.toString().getBytes());
 				try {
-					Tabbed.editor.read(test, xmlFileName);
+					RightSide.editor.read(test, "Edit XML");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		}
 	}
-	
-	
-	/*
-	class MyTreeModelListener implements TreeModelListener {
-		public void treeNodesChanged(TreeModelEvent e) {
-			DefaultMutableTreeNode node;
-			node = (DefaultMutableTreeNode) (e.getTreePath().getLastPathComponent());
- 			//if the event lists children, then the changed node is the child
-			//of the node we've already gotten. Otherwise, the changed node and
-			//the specified node are the same.
-			int index = e.getChildIndices()[0];
-			node = (DefaultMutableTreeNode) (node.getChildAt(index));
 
-			System.out.println("The user has finished editing the node.");
-			System.out.println("New value: " + node.getUserObject());
+	// reacts Before expand or collapses are made
+	class MyTreeWillExpandListener implements TreeWillExpandListener {
+		public void treeWillExpand(TreeExpansionEvent evt) throws ExpandVetoException {
+
+			// System.out.println("will expand");
+			// boolean veto = false;
+			// if (veto) {
+			// System.out.println("blocking expand");
+			// throw new ExpandVetoException(evt);
+			// }
 		}
 
-		public void treeNodesInserted(TreeModelEvent e) {
-		}
-
-		public void treeNodesRemoved(TreeModelEvent e) {
-		}
-
-		public void treeStructureChanged(TreeModelEvent e) {
+		public void treeWillCollapse(TreeExpansionEvent evt) throws ExpandVetoException {
+			TreePath tree = evt.getPath();
+			if (tree.isDescendant(selected)) {
+				throw new ExpandVetoException(evt);
+			}
 		}
 	}
-	*/
+
+	// reacts After expand or collapses are made
+	class MyTreeExpansionListener implements TreeExpansionListener {
+		public void treeExpanded(TreeExpansionEvent evt) {
+			// JTree tree = (JTree) evt.getSource();
+			// TreePath path = evt.getPath();
+			// System.out.println("treeExpanded");
+		}
+
+		public void treeCollapsed(TreeExpansionEvent evt) {
+			// JTree tree = (JTree) evt.getSource();
+			// TreePath path = evt.getPath();
+			// System.out.println("treeCollapsed");
+		}
+	}
 }
