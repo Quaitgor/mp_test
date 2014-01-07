@@ -36,11 +36,9 @@ public class DynamicTree extends JPanel {
 	public JTree tree;
 	private Toolkit toolkit = Toolkit.getDefaultToolkit();
 	TreePath selected = null;
-	private HashMap<DefaultMutableTreeNode, StringWriter> xmlList;
 	
-	public DynamicTree(HashMap<DefaultMutableTreeNode, StringWriter> xmlList) {
+	public DynamicTree() {
 		super(new GridLayout(1, 0));
-		this.xmlList = xmlList;
 		rootNode = new DefaultMutableTreeNode("Library");
 		treeModel = new DefaultTreeModel(rootNode);
 		tree = new JTree(treeModel);
@@ -108,6 +106,8 @@ public class DynamicTree extends JPanel {
 			selected = e.getPath();
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 			if (selectedNode.isLeaf()) {
+				//System.out.println(selectedNode.getParent().toString());
+				/*
 				StringWriter xmlFile = xmlList.get(selectedNode);
 				ByteArrayInputStream test = new ByteArrayInputStream(xmlFile.toString().getBytes());
 				try {
@@ -115,6 +115,7 @@ public class DynamicTree extends JPanel {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				*/
 			}
 		}
 	}

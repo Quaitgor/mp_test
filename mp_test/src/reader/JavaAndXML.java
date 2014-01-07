@@ -52,10 +52,10 @@ public class JavaAndXML {
 			jc = JAXBContext.newInstance(objClass);
 			Unmarshaller u = jc.createUnmarshaller();
 			obj = u.unmarshal(new StringReader(sw.toString()));
+			((DataInit) obj).init();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		((DataInit) obj).init();
 		return obj;
 	}
 

@@ -2,8 +2,6 @@ package graphics;
 
 import java.util.ResourceBundle;
 
-import javax.swing.SwingUtilities;
-
 import observer.*;
 
 import org.lwjgl.LWJGLException;
@@ -12,8 +10,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import writer.TextWriter;
 import controller.Controller;
-import explorer.ExplorerWindow;
 
 public class GraphicSync {
 	public static boolean isRunning = true;
@@ -25,11 +23,12 @@ public class GraphicSync {
 	private static GraphicSync gs = null;
 	public static ResourceBundle config = ResourceBundle.getBundle("config");
 
+	private Controller controller;
+	
 	private GraphicSync() {
-		System.out.println("starting Graphics");
+		controller = Controller.getInstance();
 		deltaUpdater = DeltaUpdater.getInstance();
 		getDelta();
-		initData();
 	}
 
 	public static GraphicSync getInstance() {
@@ -39,17 +38,11 @@ public class GraphicSync {
 		return gs;
 	}
 
-	public void initExplorer() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new ExplorerWindow();
-			}
-		});
-	}
 
-	public void initDisplay() {
+	public void initGraphics() {
 		initGL(Integer.parseInt(config.getString("display.sizeX")), Integer.parseInt(config.getString("display.sizeY")));
-		Controller.getInstance().start();
+		TextWriter.getInstance();
+		controller.start();
 		while (isRunning) {
 			if (Display.isCloseRequested()) {
 				isRunning = false;
@@ -64,12 +57,6 @@ public class GraphicSync {
 		Display.destroy();
 		System.exit(0);
 	}
-
-	private void initData() {
-		System.out.println("starting Controller");
-		Controller.getInstance();
-	}
-
 	private void initGL(int width, int height) {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));

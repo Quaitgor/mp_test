@@ -3,5 +3,5 @@
     <file>res/font/computer_pixel-7.ttf</file>
     <antiAlias>false</antiAlias>
     <name>computer_pixel-7</name>
-	<size>30</size>
+	<size>30f</size>
 </fontData>

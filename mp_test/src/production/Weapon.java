@@ -72,7 +72,7 @@ public class Weapon extends GraphicalElement implements InputInterface {
 			pOffsetX = pOffset[number * 2];
 			pOffsetY = pOffset[number * 2 + 1];
 		}
-		Projectile projectile = (Projectile) JavaAndXML.getInstance().XMLtoJava(Controller.projectiles.get(projectiles[number]), Projectile.class);
+		Projectile projectile = (Projectile) JavaAndXML.getInstance().XMLtoJava(Controller.getInstance().getXML("Weapons", projectiles[number]), Projectile.class);
 		projectile.setPosition(x + pOffsetX, y + pOffsetY);
 	}
 
