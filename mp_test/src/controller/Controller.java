@@ -86,16 +86,7 @@ public class Controller {
 			}
 		});
 	}
-
-	/*
-	public void initDisplay(){
-		System.out.println("111111");
-		new Thread(new GraphicSync()).start();;
-		System.out.println("222222");
-		start();
-	}
-	*/
-
+	
 	public TreeMap<String, TreeMap<String, StringWriter>> getLibrary() {
 		return library;
 	}
@@ -165,11 +156,10 @@ public class Controller {
 
 		if (isJarFile) {
 			readJar(path, library.get("i" + libraryName));
-			readFolders(modPath, library.get("e" + libraryName));
 		} else {
 			readFolders(path, library.get("i" + libraryName));
-			readFolders(modPath, library.get("e" + libraryName));
 		}
+		readFolders(modPath, library.get("e" + libraryName));
 	}
 
 	private void initBlueprints() {
@@ -227,7 +217,6 @@ public class Controller {
 			while (keySetIterator.hasNext()) {
 				String key = keySetIterator.next();
 				returnTree.put(key, library.get(sublibrary).get(key));
-				System.out.println("spezific");
 			}
 		} else {
 			Iterator<String> keySetIterator = library.get("i" + sublibrary).keySet().iterator();

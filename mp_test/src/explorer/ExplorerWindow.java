@@ -20,14 +20,13 @@ public class ExplorerWindow {
 		Rectangle bounds = frame.getGraphicsConfiguration().getBounds();
 		frame.setLocation(0, (int) ((bounds.height / 2) - (frame.getHeight() / 2)));
 
-		// Create and set up the content pane.
 
 		Component leftSide = new LeftTree();
-		Component rightSide = new RightSide();
+		Component rightSide = new Inspector();
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSide, rightSide);
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(250);
+		splitPane.setDividerLocation(200);
 		frame.setContentPane(splitPane);
 		
 		// Display the window.

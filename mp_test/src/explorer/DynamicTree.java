@@ -83,7 +83,7 @@ public class DynamicTree extends JPanel {
 		return addObject(parent, child, false);
 	}
 
-	public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) {
+	public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean makeVisible) {
 		DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
 		if (parent == null) {
 			parent = rootNode;
@@ -92,7 +92,7 @@ public class DynamicTree extends JPanel {
 		// DefaultMutableTreeNode
 		treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
 		// Make sure the user can see the lovely new node.
-		if (shouldBeVisible) {
+		if (makeVisible) {
 			tree.scrollPathToVisible(new TreePath(childNode.getPath()));
 		}
 		return childNode;
