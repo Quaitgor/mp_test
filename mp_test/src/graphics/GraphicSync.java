@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Canvas;
 import java.util.ResourceBundle;
 
 import observer.*;
@@ -22,7 +23,8 @@ public class GraphicSync {
 	public static final int FRAMEHEIGHT = 0;
 	private static GraphicSync gs = null;
 	public static ResourceBundle config = ResourceBundle.getBundle("config");
-
+	private Canvas parent = null;
+	
 	private Controller controller;
 	
 	private GraphicSync() {
@@ -61,6 +63,9 @@ public class GraphicSync {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setFullscreen(false);
+			if(controller.expWin != null){
+				Display.setParent(controller.expWin.getCanvas());
+			}
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -99,5 +104,9 @@ public class GraphicSync {
 
 	private static long getTime() {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+
+	public void setParent(Canvas canvas) {
+		parent = canvas;
 	}
 }

@@ -14,8 +14,7 @@ public class launcher {
 		controller = Controller.getInstance();
 		graphics = GraphicSync.getInstance();
 
-		controller.initExplorer();
-		//graphics.initGraphics();
-		//GraphicSync.getInstance().initExplorer();
+		//controller.initExplorer();
+		graphics.initGraphics();
 	}
 }

@@ -30,6 +30,7 @@ public class Controller {
 	public static boolean isJarFile = false;
 	public static DeltaUpdater deltaUpdater;
 
+	public ExplorerWindow expWin;
 	public CodeSource srcJar = null;
 	public String jarPath = "";
 	public static ResourceBundle config = ResourceBundle.getBundle("config");
@@ -80,13 +81,9 @@ public class Controller {
 	}
 
 	public void initExplorer() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new ExplorerWindow();
-			}
-		});
+		expWin = new ExplorerWindow();
 	}
-	
+
 	public TreeMap<String, TreeMap<String, StringWriter>> getLibrary() {
 		return library;
 	}
@@ -212,7 +209,7 @@ public class Controller {
 		TreeMap<String, StringWriter> returnTree = new TreeMap<String, StringWriter>();
 
 		if (Character.isLowerCase(sublibrary.charAt(0)) && (sublibrary.charAt(0) == 'e' || sublibrary.charAt(0) == 'i')) {
-			
+
 			Iterator<String> keySetIterator = library.get(sublibrary).keySet().iterator();
 			while (keySetIterator.hasNext()) {
 				String key = keySetIterator.next();
